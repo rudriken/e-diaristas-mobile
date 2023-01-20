@@ -1,0 +1,47 @@
+{
+    "name": "e-diaristas-mobile",
+    "slug": "e-diaristas-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#ffffff",
+        "imageUrl": "http://127.0.0.1:19000/assets/./assets/splash.png"
+    },
+    "updates": { "fallbackToCacheTimeout": 0 },
+    "assetBundlePatterns": ["**/*"],
+    "ios": { "supportsTablet": true },
+    "android": {
+        "adaptiveIcon": {
+            "foregroundImage": "./assets/adaptive-icon.png",
+            "backgroundColor": "#FFFFFF",
+            "foregroundImageUrl": "http://127.0.0.1:19000/assets/./assets/adaptive-icon.png"
+        }
+    },
+    "web": { "favicon": "./assets/favicon.png" },
+    "_internal": {
+        "isDebug": false,
+        "projectRoot": "R:\\Rodrigo\\Documents\\PROGRAMACAO\\MultiStack\\TreinaWeb\\Imersao\\Projetos\\e-diaristas-mobile",
+        "dynamicConfigPath": null,
+        "staticConfigPath": "R:\\Rodrigo\\Documents\\PROGRAMACAO\\MultiStack\\TreinaWeb\\Imersao\\Projetos\\e-diaristas-mobile\\app.json",
+        "packageJsonPath": "R:\\Rodrigo\\Documents\\PROGRAMACAO\\MultiStack\\TreinaWeb\\Imersao\\Projetos\\e-diaristas-mobile\\package.json"
+    },
+    "sdkVersion": "47.0.0",
+    "platforms": ["ios", "android", "web"],
+    "iconUrl": "http://127.0.0.1:19000/assets/./assets/icon.png",
+    "debuggerHost": "127.0.0.1:19000",
+    "logUrl": "http://127.0.0.1:19000/logs",
+    "developer": {
+        "tool": "expo-cli",
+        "projectRoot": "R:\\Rodrigo\\Documents\\PROGRAMACAO\\MultiStack\\TreinaWeb\\Imersao\\Projetos\\e-diaristas-mobile"
+    },
+    "packagerOpts": { "dev": true },
+    "mainModuleName": "node_modules\\expo\\AppEntry",
+    "__flipperHack": "React Native packager is running",
+    "hostUri": "127.0.0.1:19000",
+    "bundleUrl": "http://127.0.0.1:19000/node_modules%5Cexpo%5CAppEntry.bundle?platform=ios&dev=true&hot=false",
+    "id": "@anonymous/e-diaristas-mobile-32b3dc75-989d-4c11-8b31-7117e5c761ce"
+}
