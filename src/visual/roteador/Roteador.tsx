@@ -2,6 +2,7 @@ import { View, Text, Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Logo from "@assets/img/logos/e-diaristas-logo.png";
+import { NavigationTema } from "visual/temas/app-tema";
 
 const Pilha = createStackNavigator();
 
@@ -15,7 +16,7 @@ function Index() {
 
 export default function Roteador() {
 	return (
-		<NavigationContainer>
+		<NavigationContainer theme={NavigationTema}>
 			<Pilha.Navigator
 				screenOptions={{
 					headerTitleAlign: "center",
