@@ -1,18 +1,11 @@
-import { View, Text, Image } from "react-native";
+import { Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Logo from "@assets/img/logos/e-diaristas-logo.png";
 import { NavigationTema } from "visual/temas/app-tema";
+import Index from "pages";
 
 const Pilha = createStackNavigator();
-
-function Index() {
-	return (
-		<View>
-			<Text>Tela Index</Text>
-		</View>
-	);
-}
 
 export default function Roteador() {
 	return (
