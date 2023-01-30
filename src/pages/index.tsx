@@ -5,15 +5,11 @@ const Index = () => {
 	return (
 		<View>
 			<Text>Tela Index</Text>
-			<Botao mode={"outlined"} onPress={() => {}}>
-				Botão 1
-			</Botao>
-			<Botao mode={"contained"} onPress={() => {}}>
-				Botão 2
-			</Botao>
-			<Botao mode={"elevated"} onPress={() => {}}>
-				Botão 3
-			</Botao>
+			<Botao onPress={() => {}} uppercase={false} mode={"text"}	>Botão 1</Botao>
+			<Botao onPress={() => {}} mode={"outlined"}					>Botão 2</Botao>
+			<Botao onPress={() => {}} mode={"contained"}				>Botão 3</Botao>
+			<Botao onPress={() => {}} larguraTotal mode={"elevated"}		>Botão 4</Botao>
+			<Botao onPress={() => {}} mode={"contained-tonal"}			>Botão 5</Botao>
 		</View>
 	);
 };
