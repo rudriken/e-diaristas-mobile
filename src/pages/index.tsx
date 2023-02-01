@@ -1,17 +1,60 @@
-import { View, Text } from "react-native";
-import Botao from "visual/componentes/entradas/Botao/Botao";
-import IconeDeFonte from "visual/componentes/exibe-dados/IconeDeFonte/IconeDeFonte";
+import { useTheme } from "@emotion/react";
+import { View } from "react-native";
+import {
+	ContainerPrincipal,
+	ContainerDeRegistro,
+	TituloDoRegistro,
+	ParagrafoDoRegistro,
+	ContainerBotoesDeRegistro,
+	BotaoDeRegistro,
+	ContainerDeLogin,
+	BotaoDeLogin,
+	GradienteDeFundo,
+	ImagemDeFundo,
+} from "@estilos/pages/index.styled";
+import ImagemDeFaxina from "@assets/img/background/cleaning.jpg";
 
 const Index = () => {
+	const { colors } = useTheme();
 	return (
-		<View>
-			<Text>Tela Index</Text>
-			<Botao onPress={() => {}} uppercase={false} mode={"text"}	>Botão 1</Botao>
-			<Botao onPress={() => {}} mode={"outlined"}					>Botão 2</Botao>
-			<Botao onPress={() => {}} mode={"contained"}				>Botão 3</Botao>
-			<Botao onPress={() => {}} larguraTotal mode={"elevated"}	>Botão 4</Botao>
-			<Botao onPress={() => {}} mode={"contained-tonal"}			>Botão 5</Botao>
-			<IconeDeFonte icone={"camera"} cor={"red"} tamanho={60} />
+		<View style={{ flex: 1 }}>
+			<ContainerPrincipal>
+				<ContainerDeRegistro>
+					<View>
+						<TituloDoRegistro>Crie uma conta</TituloDoRegistro>
+						<ParagrafoDoRegistro>
+							Você quer encontrar profissionais ou cadastrar seus
+							serviços?
+						</ParagrafoDoRegistro>
+					</View>
+					<ContainerBotoesDeRegistro>
+						<BotaoDeRegistro
+							uppercase={false}
+							mode={"contained"}
+							larguraTotal
+							dark
+						>
+							Encontrar Diarista
+						</BotaoDeRegistro>
+						<BotaoDeRegistro
+							uppercase={false}
+							mode={"contained"}
+							larguraTotal
+							dark
+						>
+							Ser Diarista
+						</BotaoDeRegistro>
+					</ContainerBotoesDeRegistro>
+				</ContainerDeRegistro>
+				<ContainerDeLogin>
+					<BotaoDeLogin uppercase={false} larguraTotal>
+						Já possuo uma conta
+					</BotaoDeLogin>
+				</ContainerDeLogin>
+			</ContainerPrincipal>
+			<ImagemDeFundo source={ImagemDeFaxina}>
+				<GradienteDeFundo colors={[colors.secondary, colors.primary]} />
+			</ImagemDeFundo>
 		</View>
 	);
 };
