@@ -4,8 +4,14 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Logo from "@assets/img/logos/e-diaristas-logo.png";
 import { NavigationTema } from "visual/temas/app-tema";
 import Index from "pages";
+import EncontrarDiarista from "pages/encontrar-diarista";
 
-const Pilha = createStackNavigator();
+export type listaDeParametrosDaPilhaRaiz = {
+	Index: undefined;
+	EncontrarDiarista: undefined;
+};
+
+const Pilha = createStackNavigator<listaDeParametrosDaPilhaRaiz>();
 
 export default function Roteador() {
 	return (
@@ -26,6 +32,10 @@ export default function Roteador() {
 				}}
 			>
 				<Pilha.Screen name="Index" component={Index} />
+				<Pilha.Screen
+					name="EncontrarDiarista"
+					component={EncontrarDiarista}
+				/>
 			</Pilha.Navigator>
 		</NavigationContainer>
 	);

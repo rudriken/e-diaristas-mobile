@@ -13,9 +13,15 @@ import {
 	ImagemDeFundo,
 } from "@estilos/pages/index.styled";
 import ImagemDeFaxina from "@assets/img/background/cleaning.jpg";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { listaDeParametrosDaPilhaRaiz } from "visual/roteador/Roteador";
+
+type NavegacaoProp = StackNavigationProp<listaDeParametrosDaPilhaRaiz, "Index">;
 
 const Index = () => {
 	const { colors } = useTheme();
+	const navegacao = useNavigation<NavegacaoProp>();
 	return (
 		<View style={{ flex: 1 }}>
 			<ContainerPrincipal>
@@ -33,6 +39,9 @@ const Index = () => {
 							mode={"contained"}
 							larguraTotal
 							dark
+							onPress={() =>
+								navegacao.navigate("EncontrarDiarista")
+							}
 						>
 							Encontrar Diarista
 						</BotaoDeRegistro>
@@ -58,5 +67,4 @@ const Index = () => {
 		</View>
 	);
 };
-
 export default Index;

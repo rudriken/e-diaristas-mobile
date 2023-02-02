@@ -47,15 +47,15 @@ export const BotaoDeLogin = styled(BotaoDeRegistro)`
 	background-color: white;
 `;
 
+export const GradienteDeFundo = styled(LinearGradient)`
+	flex: 1;
+	opacity: 0.9;
+`;
+
 export const ImagemDeFundo = styled(ImageBackground)`
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-`;
-
-export const GradienteDeFundo = styled(LinearGradient)`
-	flex: 1;
-	opacity: 0.9;
 `;
