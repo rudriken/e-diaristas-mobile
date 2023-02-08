@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagina";
 import CampoDeTextoComMascara from "visual/componentes/entradas/CampoDeTextoComMascara/CampoDeTextoComMascara";
 import { useState } from "react";
+import InformacaoDoUsuario from "visual/componentes/exibe-dados/InformacaoDoUsuario/InformacaoDoUsuario";
 
 type NavegacaoProp = StackNavigationProp<
 	listaDeParametrosDaPilhaRaiz,
@@ -29,6 +30,25 @@ const EncontrarDiarista: React.FC = () => {
 				value={texto}
 				onChangeText={alterarTexto}
 				keyboardType={"number-pad"}
+			/>
+			<InformacaoDoUsuario
+				nome={"Rodrigo Mendonça"}
+				foto={"https://github.com/rudriken.png"}
+				avaliacao={2}
+				descricao={"Uberlândia"}
+			/>
+			<InformacaoDoUsuario
+				nome={"Akira Hanashiro"}
+				foto={"https://github.com/hanashiro.png"}
+				avaliacao={5}
+				descricao={"São Paulo"}
+				fundoUmPoucoMaisEscuro
+			/>
+			<InformacaoDoUsuario
+				nome={"Almeida"}
+				foto={"https://github.com/almeida.png"}
+				avaliacao={4}
+				descricao={"Curitiba"}
 			/>
 		</View>
 	);
