@@ -3,6 +3,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { listaDeParametrosDaPilhaRaiz } from "visual/roteador/Roteador";
 import { useNavigation } from "@react-navigation/native";
 import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagina";
+import CampoDeTexto from "visual/componentes/entradas/CampoDeTexto/CampoDeTexto";
 
 type NavegacaoProp = StackNavigationProp<
 	listaDeParametrosDaPilhaRaiz,
@@ -20,6 +21,7 @@ const EncontrarDiarista: React.FC = () => {
 					"Projeto mobile 'e-diaristas-mobile' da imersão Multi-stack"
 				}
 			/>
+			<CampoDeTexto label={"CEP"} />
 		</View>
 	);
 };
