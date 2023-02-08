@@ -3,7 +3,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { listaDeParametrosDaPilhaRaiz } from "visual/roteador/Roteador";
 import { useNavigation } from "@react-navigation/native";
 import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagina";
-import CampoDeTexto from "visual/componentes/entradas/CampoDeTexto/CampoDeTexto";
+import CampoDeTextoComMascara from "visual/componentes/entradas/CampoDeTextoComMascara/CampoDeTextoComMascara";
+import { useState } from "react";
 
 type NavegacaoProp = StackNavigationProp<
 	listaDeParametrosDaPilhaRaiz,
@@ -12,6 +13,7 @@ type NavegacaoProp = StackNavigationProp<
 
 const EncontrarDiarista: React.FC = () => {
 	const navegacao = useNavigation<NavegacaoProp>();
+	const [texto, alterarTexto] = useState("");
 	return (
 		<View>
 			<Text>Encontrar Diarista</Text>
@@ -21,7 +23,13 @@ const EncontrarDiarista: React.FC = () => {
 					"Projeto mobile 'e-diaristas-mobile' da imersão Multi-stack"
 				}
 			/>
-			<CampoDeTexto label={"CEP"} />
+			<CampoDeTextoComMascara
+				mascara={"99.999-999"}
+				label={"CEP"}
+				value={texto}
+				onChangeText={alterarTexto}
+				keyboardType={"number-pad"}
+			/>
 		</View>
 	);
 };
