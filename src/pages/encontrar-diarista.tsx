@@ -12,7 +12,7 @@ const EncontrarDiarista: React.FC = () => {
 	const navegacao = useNavigation<NavegacaoProp>();
 	return (
 		<>
-			<VerificarProfissionais />
+			<VerificarProfissionais aoContratarProfissional={() => {}} />
 		</>
 	);
 };

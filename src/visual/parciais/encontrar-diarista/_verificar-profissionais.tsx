@@ -10,11 +10,27 @@ import {
 	TextoDeAjuda,
 	RespostaContainer,
 } from "./_verificar-profissionais.styled";
+import useVerificarProfissionais from "logica/ganchos/pages/useVerificarProfissionais.page";
 
-interface VerificarProfissionaisProps {}
+interface VerificarProfissionaisProps {
+	aoContratarProfissional: () => void;
+}
 
-const VerificarProfissionais: React.FC<VerificarProfissionaisProps> = () => {
+const VerificarProfissionais: React.FC<VerificarProfissionaisProps> = (
+	propriedades
+) => {
 	const { colors } = useTheme();
+	const {
+		cep,
+		definirCep,
+		cepValido,
+		buscarProfissionais,
+		erro,
+		listaDiaristas,
+		buscaFeita,
+		carregando,
+		diaristasRestantes,
+	} = useVerificarProfissionais();
 	return (
 		<ScrollView>
 			<TituloPagina
@@ -28,8 +44,10 @@ const VerificarProfissionais: React.FC<VerificarProfissionaisProps> = () => {
 					label={"Digite seu CEP"}
 					mascara={"99.999-999"}
 					keyboardType={"number-pad"}
+					value={cep}
+					onChangeText={definirCep}
 				/>
-				<TextoDeAjuda>CEP não encontrado</TextoDeAjuda>
+				{erro ? <TextoDeAjuda>CEP não encontrado</TextoDeAjuda> : null}
 				<Botao
 					mode={"contained"}
 					larguraTotal
@@ -37,47 +55,56 @@ const VerificarProfissionais: React.FC<VerificarProfissionaisProps> = () => {
 					uppercase={false}
 					style={{ marginTop: 32 }}
 					buttonColor={colors.accent}
+					onPress={() => buscarProfissionais(cep)}
+					loading={carregando}
+					disabled={!cepValido || carregando}
 				>
 					Buscar
 				</Botao>
 			</FormularioContainer>
-			<RespostaContainer>
-				<InformacaoDoUsuario
-					nome={"Rodrigo Mendonça"}
-					foto={"https://github.com/rudriken.png"}
-					avaliacao={2}
-					descricao={"Uberlândia"}
-				/>
-				<InformacaoDoUsuario
-					nome={"Akira Hanashiro"}
-					foto={"https://github.com/hanashiro.png"}
-					avaliacao={5}
-					descricao={"São Paulo"}
-					fundoUmPoucoMaisEscuro
-				/>
-				<InformacaoDoUsuario
-					nome={"Almeida"}
-					foto={"https://github.com/almeida.png"}
-					avaliacao={4}
-					descricao={"Curitiba"}
-				/>
-				<TextoContainer>
-					... e mais 5 profissionais atendem ao seu endereço
-				</TextoContainer>
-				<Botao
-					mode={"contained"}
-					larguraTotal
-					dark
-					uppercase={false}
-					style={{ marginTop: 32 }}
-					buttonColor={colors.accent}
-				>
-					Contratar um(a) profissional
-				</Botao>
-			</RespostaContainer>
-			<TextoContainer>
-				Ainda não temos nenhum(a) diarista disponível em sua região.
-			</TextoContainer>
+			{buscaFeita &&
+				(listaDiaristas.length > 0 ? (
+					<RespostaContainer>
+						{listaDiaristas.map((item, indice) => {
+							return (
+								<InformacaoDoUsuario
+									key={indice}
+									nome={item.nome}
+									foto={item.foto_do_usuario || ""}
+									avaliacao={item.reputacao || 0}
+									descricao={item.cidade}
+									fundoUmPoucoMaisEscuro={indice % 2 === 1}
+								/>
+							);
+						})}
+						{diaristasRestantes > 0 && (
+							<TextoContainer>
+								... e mais {diaristasRestantes}{" "}
+								{diaristasRestantes > 1
+									? "profissionais atendem"
+									: "profissional atende"}{" "}
+								ao seu endereço.
+							</TextoContainer>
+						)}
+
+						<Botao
+							mode={"contained"}
+							larguraTotal
+							dark
+							uppercase={false}
+							style={{ marginTop: 32 }}
+							buttonColor={colors.accent}
+							onPress={propriedades.aoContratarProfissional}
+						>
+							Contratar um(a) profissional
+						</Botao>
+					</RespostaContainer>
+				) : (
+					<TextoContainer>
+						Ainda não temos nenhum(a) diarista disponível em sua
+						região.
+					</TextoContainer>
+				))}
 		</ScrollView>
 	);
 };
