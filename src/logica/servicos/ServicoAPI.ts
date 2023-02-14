@@ -16,7 +16,7 @@ ServicoAPI.interceptors.response.use(
 	(resposta) => resposta,
 	(erro) => {
 		if (
-			erro.response.HTTP === 401 &&
+			erro.response?.HTTP === 401 &&
 			erro.response.data.codigo === "token_nao_validado"
 		) {
 			lidarComAtualizacaoDoToken(erro);
