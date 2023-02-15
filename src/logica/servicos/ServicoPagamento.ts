@@ -1,6 +1,9 @@
 import { CorDoTexto } from "logica/@tipos/DiariaInterface";
 import { PagamentoStatus } from "logica/@tipos/PagamentoInterface";
-import pagarme, { CartaoInterface, CartaoValidacaoInterface } from "pagarme";
+import pagarme, {
+	CartaoInterface,
+	CartaoValidacaoInterface,
+} from "pagarme/browser";
 
 const chave_encriptadora = process.env.NEXT_PUBLIC_PAGARME_ENCRYPTION_KEY;
 

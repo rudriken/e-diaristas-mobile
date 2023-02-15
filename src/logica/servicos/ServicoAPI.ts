@@ -28,7 +28,7 @@ ServicoAPI.interceptors.response.use(
 async function lidarComAtualizacaoDoToken(erro: {
 	configuracao: AxiosRequestConfig;
 }) {
-	const tokenRefresh = LocalStorage.pegar<string>("token_refresh", "");
+	const tokenRefresh = await LocalStorage.pegar<string>("token_refresh", "");
 	if (tokenRefresh) {
 		LocalStorage.apagar("token_refresh");
 		LocalStorage.apagar("token");

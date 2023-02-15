@@ -29,7 +29,7 @@ export const ServicoLogin = {
 		LocalStorage.apagar("token_refresh");
 	},
 	async informacoes(): Promise<InterfaceDoUsuario | undefined> {
-		const token = LocalStorage.pegar("token", "");
+		const token = await LocalStorage.pegar("token", "");
 		if (token) {
 			ServicoAPI.defaults.headers.common.Authorization =
 				"Bearer " + token;
