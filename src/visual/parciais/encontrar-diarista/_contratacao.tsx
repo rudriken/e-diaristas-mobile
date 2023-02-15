@@ -1,21 +1,11 @@
-import CampoDeLasca from "visual/componentes/exibe-dados/CampoDeLasca/CampoDeLasca";
+import MigalhaDePao from "visual/componentes/navegacao/MigalhaDePao/MigalhaDePao";
 
 const Contratacao: React.FC = () => {
 	return (
 		<>
-			<CampoDeLasca
-				paraDeletar={() => {}}
-				listaDeItens={[
-					"Uberlândia - MG",
-					"Uberaba - MG",
-					"Sertãozinho - SP",
-					"Franca - SP",
-					"Curitiba - PR",
-				]}
-			/>
-			<CampoDeLasca
-				listaDeItens={[]}
-				mensagemQuandoVazio={"Nenhuma cidade ainda!"}
+			<MigalhaDePao
+				itens={["Detalhes", "Identificação", "Pagamento"]}
+				selecionado={"Identificação"}
 			/>
 		</>
 	);
