@@ -1,10 +1,10 @@
-import { View, Text } from "react-native";
+import Status from "visual/componentes/exibe-dados/Status/Status";
 
 const Contratacao: React.FC = () => {
 	return (
-		<View>
-			<Text>Parcial 'Contratação'</Text>
-		</View>
+		<>
+			<Status cor={"warning"}>Aviso</Status>
+		</>
 	);
 };
 
