@@ -1,9 +1,22 @@
-import Status from "visual/componentes/exibe-dados/Status/Status";
+import CampoDeLasca from "visual/componentes/exibe-dados/CampoDeLasca/CampoDeLasca";
 
 const Contratacao: React.FC = () => {
 	return (
 		<>
-			<Status cor={"warning"}>Aviso</Status>
+			<CampoDeLasca
+				paraDeletar={() => {}}
+				listaDeItens={[
+					"Uberlândia - MG",
+					"Uberaba - MG",
+					"Sertãozinho - SP",
+					"Franca - SP",
+					"Curitiba - PR",
+				]}
+			/>
+			<CampoDeLasca
+				listaDeItens={[]}
+				mensagemQuandoVazio={"Nenhuma cidade ainda!"}
+			/>
 		</>
 	);
 };
