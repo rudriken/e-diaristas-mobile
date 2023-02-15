@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useTheme } from "@emotion/react";
 import { ScrollView } from "react-native";
 import Botao from "visual/componentes/entradas/Botao/Botao";
@@ -11,6 +12,7 @@ import {
 	RespostaContainer,
 } from "./_verificar-profissionais.styled";
 import useVerificarProfissionais from "logica/ganchos/pages/useVerificarProfissionais.page";
+import useVerificarProfissionaisMobile from "logica/ganchos/pages/useVerificarProfissionais.page.mobile";
 
 interface VerificarProfissionaisProps {
 	aoContratarProfissional: () => void;
@@ -31,12 +33,21 @@ const VerificarProfissionais: React.FC<VerificarProfissionaisProps> = (
 		carregando,
 		diaristasRestantes,
 	} = useVerificarProfissionais();
+	const { cepAutomatico } = useVerificarProfissionaisMobile();
+
+	useEffect(() => {
+		if (cepAutomatico && !cep) {
+			definirCep(cepAutomatico);
+			buscarProfissionais(cepAutomatico);
+		}
+	}, [cepAutomatico]);
+
 	return (
 		<ScrollView>
 			<TituloPagina
 				titulo={"Conheça os profissionais"}
 				subtitulo={
-					"Preencha seu endereço e veja todos os profissionais da sua localidade"
+					"Preencha seu endereço e veja todos os profissionais da sua localida-de"
 				}
 			/>
 			<FormularioContainer>
@@ -62,6 +73,7 @@ const VerificarProfissionais: React.FC<VerificarProfissionaisProps> = (
 					Buscar
 				</Botao>
 			</FormularioContainer>
+
 			{buscaFeita &&
 				(listaDiaristas.length > 0 ? (
 					<RespostaContainer>
@@ -77,6 +89,7 @@ const VerificarProfissionais: React.FC<VerificarProfissionaisProps> = (
 								/>
 							);
 						})}
+
 						{diaristasRestantes > 0 && (
 							<TextoContainer>
 								... e mais {diaristasRestantes}{" "}
