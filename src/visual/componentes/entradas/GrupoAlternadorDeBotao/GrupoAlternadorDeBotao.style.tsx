@@ -22,7 +22,7 @@ export const AlternadorDeBotaoEstilizado = styled(TouchableRipple, {
 	border-radius: ${({ theme }) => theme.shape.borderRadius};
 	${({ escolhido, theme }) => {
 		if (!escolhido) {
-			return "border: 1px solid " + theme.colors.grey[200];
+			return "border: 1px solid " + theme.colors.grey[200] + ";";
 		}
 	}}
 `;
