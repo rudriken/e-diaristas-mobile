@@ -1,15 +1,9 @@
-import ContadorDeItens from "visual/componentes/entradas/ContadorDeItens/ContadorDeItens";
+import CampoDeArquivo from "visual/componentes/entradas/CampoDeArquivo/CampoDeArquivo";
 
 const Contratacao: React.FC = () => {
 	return (
 		<>
-			<ContadorDeItens
-				rotulo={"Sala"}
-				plural={"Salas"}
-				contador={3}
-				incrementar={() => {}}
-				decrementar={() => {}}
-			/>
+			<CampoDeArquivo aoAlterar={(arquivo) => {}} />
 		</>
 	);
 };
