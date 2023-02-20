@@ -1,35 +1,33 @@
-import { View, Text } from "react-native";
-import Dialogo from "visual/componentes/retorno/Dialogo/Dialogo";
+import { Text } from "react-native";
+import Botao from "visual/componentes/entradas/Botao/Botao";
+import ListaDeDados from "visual/componentes/exibe-dados/ListaDeDados/ListaDeDados";
 
 const Contratacao: React.FC = () => {
 	return (
 		<>
-			<Dialogo
-				aberto={true}
-				aoFechar={() => {}}
-				titulo={"React Native"}
-				subtitulo={"Gostando do curso?"}
-				alturaTotal
-				rotuloCancelar="NÃO"
-				rotuloConfirmar="SIM"
-			>
-				<View>
-					<Text>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Harum hic dignissimos provident ut doloribus eius nisi
-						quos, deleniti velit rerum. Saepe natus velit nesciunt
-						numquam explicabo facilis quod illo? Quam. Id est
-						corporis, autem labore consequuntur, porro laudantium
-						incidunt cumque eos quis fugiat iusto totam possimus
-						quas necessitatibus quos nostrum odio voluptatibus
-						molestiae sequi magnam? Aspernatur harum qui eveniet.
-						Eaque? Voluptatibus quo fuga in at esse consequuntur,
-						minus aliquam, debitis modi saepe dicta culpa quas alias
-						odio illum incidunt iusto nobis voluptates. Facilis eius
-						accusamus non veniam rem aliquam nostrum!
-					</Text>
-				</View>
-			</Dialogo>
+			<ListaDeDados
+				cabecalho={<Text>Título</Text>}
+				corpo={
+					<>
+						<Text style={{ color: "white" }}>texto</Text>
+						<Text style={{ color: "yellow" }}>texto</Text>
+						<Text style={{ color: "pink" }}>texto</Text>
+						<Text style={{ color: "#11e91c" }}>texto</Text>
+						<Text style={{ color: "#aaa" }}>texto</Text>
+						<Text>texto</Text>
+					</>
+				}
+				acoes={
+					<>
+						<Botao mode={"contained"} uppercase={false} dark>
+							Não
+						</Botao>
+						<Botao mode={"contained"} uppercase={false} dark>
+							Sim
+						</Botao>
+					</>
+				}
+			/>
 		</>
 	);
 };
