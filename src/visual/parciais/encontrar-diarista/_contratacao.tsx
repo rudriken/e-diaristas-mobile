@@ -1,33 +1,22 @@
+import { useState } from "react";
 import { Text } from "react-native";
-import Botao from "visual/componentes/entradas/Botao/Botao";
-import ListaDeDados from "visual/componentes/exibe-dados/ListaDeDados/ListaDeDados";
+import AutoCompletar from "visual/componentes/entradas/AutoCompletar/AutoCompletar";
 
 const Contratacao: React.FC = () => {
+	const [valor, alterarValor] = useState("");
+	const [valorEscolhido, alterarValorEscolhido] = useState("");
 	return (
 		<>
-			<ListaDeDados
-				cabecalho={<Text>Título</Text>}
-				corpo={
-					<>
-						<Text style={{ color: "white" }}>texto</Text>
-						<Text style={{ color: "yellow" }}>texto</Text>
-						<Text style={{ color: "pink" }}>texto</Text>
-						<Text style={{ color: "#11e91c" }}>texto</Text>
-						<Text style={{ color: "#aaa" }}>texto</Text>
-						<Text>texto</Text>
-					</>
-				}
-				acoes={
-					<>
-						<Botao mode={"contained"} uppercase={false} dark>
-							Não
-						</Botao>
-						<Botao mode={"contained"} uppercase={false} dark>
-							Sim
-						</Botao>
-					</>
-				}
+			<AutoCompletar
+				valor={valor}
+				aoMudarTexto={alterarValor}
+				limparAoSelecionar
+				aoSelecionarItem={alterarValorEscolhido}
+				rotulo={"Escolha o valor"}
+				opcoes={["Chocolate", "Morango", "Creme", "Chocolate", "Côco"]}
+				textoQuandoNaoHaOpcoes={"Nenhum produto encontrado"}
 			/>
+			<Text>{valorEscolhido}</Text>
 		</>
 	);
 };
