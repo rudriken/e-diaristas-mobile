@@ -1,6 +1,7 @@
 import {
 	NEXT_PUBLIC_API,
 	NEXT_PUBLIC_PAGARME_ENCRYPTION_KEY,
+	NEXT_PUBLIC_RECUPERAR_SENHA,
 	/* @ts-ignore */
 } from "@env";
 
@@ -10,6 +11,7 @@ import {
 const RN_ENV = {
 	NEXT_PUBLIC_API,
 	NEXT_PUBLIC_PAGARME_ENCRYPTION_KEY,
+	NEXT_PUBLIC_RECUPERAR_SENHA,
 };
 
 for (const chave in RN_ENV) {
