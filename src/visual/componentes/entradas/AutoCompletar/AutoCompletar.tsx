@@ -47,6 +47,7 @@ const AutoCompletar: React.FC<AutoCompletarProps> = ({
 				onFocus={() => alterarEstaAberto(true)}
 				label={outrasProps.rotulo}
 				value={outrasProps.valor}
+				disabled={desabilitado}
 			/>
 			<Dialogo
 				aberto={estaAberto}
