@@ -74,9 +74,11 @@ export default function useContratacao() {
 		[novaDiaria, alterarNovaDiaria] = useState({} as DiariaInterface),
 		tipoLimpeza = useMemo<ServicoInterface>(() => {
 			if (servicos && dadosFaxina?.servico) {
-				const servicoSelecionado = servicos.find(
-					(servico) => servico.id === dadosFaxina?.servico
-				);
+				const servicoSelecionado = Array.isArray(servicos)
+					? servicos.find(
+							(servico) => servico.id === dadosFaxina?.servico
+					  )
+					: undefined;
 				if (servicoSelecionado) {
 					return servicoSelecionado;
 				}
