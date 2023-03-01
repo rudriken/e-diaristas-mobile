@@ -6,13 +6,17 @@ import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagi
 import { FormularioUsuarioContainer } from "visual/componentes/entradas/FormularioUsuario/FormularioUsuario";
 import { FormProvider } from "react-hook-form";
 import DetalhesServico from "./_detalhes-servico";
+import CadastroCliente from "./_cadastro-cliente";
 
 const Contratacao: React.FC = () => {
 	const {
 		passo,
+		alterarPasso,
 		migalhaDePaoItens,
 		formularioServico,
+		formularioCliente,
 		aoSubmeterFormularioServico,
+		aoSubmeterFormularioCliente,
 		servicos,
 		podemosAtender,
 		tamanhoCasa,
@@ -37,6 +41,11 @@ const Contratacao: React.FC = () => {
 			{passo === 1 && (
 				<TituloPagina titulo="Nos conte um pouco sobre o serviço!" />
 			)}
+
+			{passo === 2 && (
+				<TituloPagina titulo="Precisamos conhecer um pouco sobre você!" />
+			)}
+
 			<FormularioUsuarioContainer>
 				<View style={{ display: passo !== 1 ? "none" : "flex" }}>
 					<FormProvider {...formularioServico}>
@@ -46,6 +55,17 @@ const Contratacao: React.FC = () => {
 							podemosAtender={podemosAtender}
 							aoSubmeter={formularioServico.handleSubmit(
 								aoSubmeterFormularioServico
+							)}
+						/>
+					</FormProvider>
+				</View>
+
+				<View style={{ display: passo !== 2 ? "none" : "flex" }}>
+					<FormProvider {...formularioCliente}>
+						<CadastroCliente
+							paraVoltar={() => alterarPasso(1)}
+							aoSubmeter={formularioCliente.handleSubmit(
+								aoSubmeterFormularioCliente
 							)}
 						/>
 					</FormProvider>
