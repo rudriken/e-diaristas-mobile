@@ -8,6 +8,15 @@ import { FormProvider } from "react-hook-form";
 import DetalhesServico from "./_detalhes-servico";
 import CadastroCliente from "./_cadastro-cliente";
 import InformacoesPagamento from "./_informacoes-pagamento";
+import {
+	ConfirmacaoContainer,
+	ConfirmacaoTitulo,
+	ConfirmacaoParagrafo,
+} from "./_contratacao.styled";
+import IconeDeFonte from "visual/componentes/exibe-dados/IconeDeFonte/IconeDeFonte";
+import { useTheme } from "@emotion/react";
+import Botao from "visual/componentes/entradas/Botao/Botao";
+import { Portal } from "react-native-paper";
 
 const Contratacao: React.FC = () => {
 	const {
@@ -24,6 +33,7 @@ const Contratacao: React.FC = () => {
 		podemosAtender,
 		tamanhoCasa,
 	} = useContratacao();
+	const cores = useTheme().colors;
 
 	if (!servicos || servicos.length < 1 || !Array.isArray(servicos)) {
 		return (
@@ -92,6 +102,35 @@ const Contratacao: React.FC = () => {
 							)}
 						/>
 					</FormProvider>
+				)}
+
+				{passo === 4 && (
+					<Portal>
+						<ConfirmacaoContainer>
+							<ConfirmacaoTitulo>
+								Pagamento realizado com sucesso!
+							</ConfirmacaoTitulo>
+							<ConfirmacaoParagrafo>
+								Vamos escolher o/a melhor diarista para lhe
+								atender. Aguarde nossa confirmação!
+							</ConfirmacaoParagrafo>
+							<IconeDeFonte
+								icone={"check-circle"}
+								cor={cores.accent}
+								tamanho={145}
+							/>
+							<Botao
+								uppercase={false}
+								dark
+								buttonColor={cores.accent}
+								mode={"contained"}
+								style={{ marginTop: 40 }}
+								larguraTotal
+							>
+								Ir para minhas diárias
+							</Botao>
+						</ConfirmacaoContainer>
+					</Portal>
 				)}
 			</FormularioUsuarioContainer>
 		</ScrollView>

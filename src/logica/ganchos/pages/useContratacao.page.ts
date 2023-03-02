@@ -30,7 +30,7 @@ import { ServicoUsuario } from "logica/servicos/ServicoUsuario";
 import { ServicoPagamento } from "logica/servicos/ServicoPagamento";
 
 export default function useContratacao() {
-	const [passo, alterarPasso] = useState(3),
+	const [passo, alterarPasso] = useState(4),
 		[temLogin, alterarTemLogin] = useState(true),
 		[erroDeLogin, alterarErroDeLogin] = useState(""),
 		migalhaDePaoItens = [
