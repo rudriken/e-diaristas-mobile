@@ -17,6 +17,8 @@ import IconeDeFonte from "visual/componentes/exibe-dados/IconeDeFonte/IconeDeFon
 import { useTheme } from "@emotion/react";
 import Botao from "visual/componentes/entradas/Botao/Botao";
 import { Portal } from "react-native-paper";
+import { useEffect, useRef } from "react";
+import { ServicoMovel } from "logica/servicos/ServicoMovel";
 
 const Contratacao: React.FC = () => {
 	const {
@@ -34,6 +36,13 @@ const Contratacao: React.FC = () => {
 		tamanhoCasa,
 	} = useContratacao();
 	const cores = useTheme().colors;
+	const scrollViewRef = useRef<ScrollView>(null);
+
+	useEffect(() => {
+		setTimeout(() => {
+			ServicoMovel.rolarParaCima(scrollViewRef.current);
+		}, 100);
+	}, [passo]);
 
 	if (!servicos || servicos.length < 1 || !Array.isArray(servicos)) {
 		return (
@@ -44,7 +53,7 @@ const Contratacao: React.FC = () => {
 	}
 
 	return (
-		<ScrollView>
+		<ScrollView ref={scrollViewRef}>
 			{passo < 4 && (
 				<MigalhaDePao
 					itens={migalhaDePaoItens}
