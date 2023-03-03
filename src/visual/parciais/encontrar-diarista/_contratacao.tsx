@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import useContratacao from "logica/ganchos/pages/useContratacao.page";
 import MigalhaDePao from "visual/componentes/navegacao/MigalhaDePao/MigalhaDePao";
 import { ActivityIndicator } from "react-native";
@@ -19,8 +19,14 @@ import Botao from "visual/componentes/entradas/Botao/Botao";
 import { Portal } from "react-native-paper";
 import { useEffect, useRef } from "react";
 import { ServicoMovel } from "logica/servicos/ServicoMovel";
+import ListaDeDados from "visual/componentes/exibe-dados/ListaDeDados/ListaDeDados";
+import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
 
-const Contratacao: React.FC = () => {
+interface ContratacaoProps {
+	aoFinalizar: () => void;
+}
+
+const Contratacao: React.FC<ContratacaoProps> = ({ aoFinalizar }) => {
 	const {
 		passo,
 		alterarPasso,
@@ -33,10 +39,16 @@ const Contratacao: React.FC = () => {
 		aoSubmeterFormularioPagamento,
 		servicos,
 		podemosAtender,
+		tipoLimpeza,
+		totalPreco,
 		tamanhoCasa,
 	} = useContratacao();
 	const cores = useTheme().colors;
 	const scrollViewRef = useRef<ScrollView>(null);
+	const dataAtendimento = formularioServico.watch(
+		"faxina.data_atendimento",
+		""
+	);
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -60,6 +72,31 @@ const Contratacao: React.FC = () => {
 					selecionado={migalhaDePaoItens[passo - 1]}
 				/>
 			)}
+
+			{[2, 3].includes(passo) && (
+				<ListaDeDados
+					cabecalho={
+						<Text>
+							O valor total do serviço é:{" "}
+							{ServicoFormatadorDeTexto.formatarMoeda(totalPreco)}
+						</Text>
+					}
+					corpo={
+						<>
+							<Text style={{ color: "white" }}>
+								{tipoLimpeza?.nome}
+							</Text>
+							<Text style={{ color: "white" }}>
+								Tamanho: {tamanhoCasa.join(" ,")}
+							</Text>
+							<Text style={{ color: "white" }}>
+								Data: {dataAtendimento as string}
+							</Text>
+						</>
+					}
+				/>
+			)}
+
 			{passo === 1 && (
 				<TituloPagina titulo="Nos conte um pouco sobre o serviço!" />
 			)}
@@ -135,6 +172,7 @@ const Contratacao: React.FC = () => {
 								mode={"contained"}
 								style={{ marginTop: 40 }}
 								larguraTotal
+								onPress={aoFinalizar}
 							>
 								Ir para minhas diárias
 							</Botao>

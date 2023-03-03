@@ -1,7 +1,7 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { listaDeParametrosDaPilhaRaiz } from "visual/roteador/Roteador";
 import { useNavigation } from "@react-navigation/native";
-// import VerificarProfissionais from "@parciais/encontrar-diarista/_verificar-profissionais";
+import VerificarProfissionais from "@parciais/encontrar-diarista/_verificar-profissionais";
 import Contratacao from "@parciais/encontrar-diarista/_contratacao";
 import useEncontrarDiarista from "logica/ganchos/pages/useEncontrarDiarista.page";
 
@@ -13,16 +13,18 @@ type NavegacaoProp = StackNavigationProp<
 const EncontrarDiarista: React.FC = () => {
 	const navegacao = useNavigation<NavegacaoProp>();
 	const { podeContratar, alterarPodeContratar } = useEncontrarDiarista();
+
+	function aoFinalizar() {}
+
 	return (
 		<>
-			<Contratacao />
-			{/* {!podeContratar ? (
+			{!podeContratar ? (
 				<VerificarProfissionais
 					aoContratarProfissional={() => alterarPodeContratar(true)}
 				/>
 			) : (
-				<Contratacao />
-			)} */}
+				<Contratacao aoFinalizar={aoFinalizar} />
+			)}
 		</>
 	);
 };
