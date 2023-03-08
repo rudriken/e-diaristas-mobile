@@ -1,4 +1,4 @@
-import { Image } from "react-native";
+import { Image, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
 	createStackNavigator,
@@ -23,6 +23,7 @@ import { useContext } from "react";
 import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { TipoDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
 import { useTheme } from "@emotion/react";
+import { ActivityIndicator } from "react-native-paper";
 
 export type listaDeParametrosDaPilhaRaiz = {
 	Index: undefined;
@@ -144,9 +145,21 @@ const RotasPrivadas = () => {
 };
 
 export default function Roteador() {
+	const { estadoUsuario } = useContext(ContextoUsuario),
+		logado = estadoUsuario.usuario.nome_completo.length > 0,
+		logando = estadoUsuario.logando;
+
+	if (logando) {
+		return (
+			<View style={{ flex: 1, justifyContent: "center" }}>
+				<ActivityIndicator size={100} />
+			</View>
+		);
+	}
+
 	return (
 		<NavigationContainer theme={NavigationTema}>
-			<RotasPrivadas />
+			{logado ? <RotasPrivadas /> : <RotasPublicas />}
 		</NavigationContainer>
 	);
 }
