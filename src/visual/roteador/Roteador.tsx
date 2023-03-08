@@ -1,26 +1,60 @@
 import { Image } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-// import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+	createStackNavigator,
+	StackNavigationOptions,
+} from "@react-navigation/stack";
+import {
+	BottomTabNavigationOptions,
+	createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import Logo from "@assets/img/logos/e-diaristas-logo.png";
 import { NavigationTema } from "visual/temas/app-tema";
 import Index from "pages";
 import EncontrarDiarista from "pages/encontrar-diarista";
 import IconeDeFonte from "visual/componentes/exibe-dados/IconeDeFonte/IconeDeFonte";
+import Diarista from "pages/cadastro/diarista";
+import AlterarDados from "pages/alterar-dados";
+import Diarias from "pages/diarias";
+import Login from "pages/login";
+import Oportunidades from "pages/oportunidades";
+import Pagamentos from "pages/pagamentos";
+import { useContext } from "react";
+import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
+import { TipoDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
+import { useTheme } from "@emotion/react";
 
-// export type listaDeParametrosDaPilhaRaiz = {
-// 	Index: undefined;
-// 	EncontrarDiarista: undefined;
-// };
+export type listaDeParametrosDaPilhaRaiz = {
+	Index: undefined;
+	EncontrarDiarista: undefined;
+	CadastroDiarista: undefined;
+	Login: undefined;
+};
 
 export type listaDeParametrosDaGuiaInferiorRaiz = {
-	Index: undefined;
+	Diarias: undefined;
+	AlterarDados: undefined;
+	Oportunidades: undefined;
+	Pagamentos: undefined;
 	EncontrarDiarista: undefined;
 };
 
-// const Pilha = createStackNavigator<listaDeParametrosDaPilhaRaiz>();
+const Pilha = createStackNavigator<listaDeParametrosDaPilhaRaiz>();
 const GuiaInferior =
 	createBottomTabNavigator<listaDeParametrosDaGuiaInferiorRaiz>();
+const opcoesDaTela = {
+	headerTitleAlign: "center",
+	headerTitle: () => (
+		<Image
+			source={Logo}
+			style={{
+				width: 150,
+				height: 50,
+				resizeMode: "contain",
+			}}
+		/>
+	),
+};
 
 function pegarIcone(
 	nomeDoIcone: TwIcon
@@ -30,35 +64,89 @@ function pegarIcone(
 	};
 }
 
-export default function Roteador() {
+const RotasPublicas = () => {
 	return (
-		<NavigationContainer theme={NavigationTema}>
-			<GuiaInferior.Navigator
-				screenOptions={{
-					headerTitleAlign: "center",
-					headerTitle: () => (
-						<Image
-							source={Logo}
-							style={{
-								width: 150,
-								height: 50,
-								resizeMode: "contain",
-							}}
-						/>
-					),
-				}}
-			>
-				<GuiaInferior.Screen name="Index" component={Index} />
+		<Pilha.Navigator screenOptions={opcoesDaTela as StackNavigationOptions}>
+			<Pilha.Screen name={"Index"} component={Index} />
+			<Pilha.Screen
+				name={"EncontrarDiarista"}
+				component={EncontrarDiarista}
+			/>
+			<Pilha.Screen name={"CadastroDiarista"} component={Diarista} />
+			<Pilha.Screen name={"Login"} component={Login} />
+		</Pilha.Navigator>
+	);
+};
+
+const RotasPrivadas = () => {
+	const { usuario } = useContext(ContextoUsuario).estadoUsuario,
+		cores = useTheme().colors;
+	return (
+		<GuiaInferior.Navigator
+			screenOptions={
+				{
+					...opcoesDaTela,
+					tabBarActiveTintColor: cores.grey["50"],
+					tabBarActiveBackgroundColor: cores.primary,
+					tabBarInactiveTintColor: cores.grey["300"],
+					tabBarInactiveBackgroundColor: cores.primary,
+					tabBarItemStyle: { paddingTop: 4, paddingBottom: 4 },
+					tabBarHideOnKeyboard: true,
+				} as BottomTabNavigationOptions
+			}
+		>
+			{usuario.tipo_usuario === TipoDoUsuario.Diarista && (
 				<GuiaInferior.Screen
-					name="EncontrarDiarista"
+					name={"Oportunidades"}
+					component={Oportunidades}
+					options={{ tabBarIcon: pegarIcone("search") }}
+				/>
+			)}
+
+			<GuiaInferior.Screen
+				name={"Diarias"}
+				component={Diarias}
+				options={{
+					title: "Diárias",
+					tabBarIcon: pegarIcone("check-circle"),
+				}}
+			/>
+
+			{usuario.tipo_usuario === TipoDoUsuario.Diarista ? (
+				<GuiaInferior.Screen
+					name={"Pagamentos"}
+					component={Pagamentos}
+					options={{
+						tabBarIcon: pegarIcone("credit-card"),
+					}}
+				/>
+			) : (
+				<GuiaInferior.Screen
+					name={"EncontrarDiarista"}
 					component={EncontrarDiarista}
 					options={{
 						title: "Encontrar Diaristas",
-						tabBarIcon: pegarIcone("bars"),
-						tabBarBadge: 15,
+						tabBarIcon: pegarIcone("search"),
 					}}
 				/>
-			</GuiaInferior.Navigator>
+			)}
+
+			<GuiaInferior.Screen
+				name={"AlterarDados"}
+				component={AlterarDados}
+				options={{
+					title: "Alterar Dados",
+					tabBarIcon: pegarIcone("woman"),
+				}}
+			/>
+		</GuiaInferior.Navigator>
+	);
+};
+
+export default function Roteador() {
+	return (
+		<NavigationContainer theme={NavigationTema}>
+			<RotasPrivadas />
 		</NavigationContainer>
 	);
 }
