@@ -56,7 +56,11 @@ const Index = () => {
 					</ContainerBotoesDeRegistro>
 				</ContainerDeRegistro>
 				<ContainerDeLogin>
-					<BotaoDeLogin uppercase={false} larguraTotal>
+					<BotaoDeLogin
+						uppercase={false}
+						larguraTotal
+						onPress={() => navegacao.navigate("Login")}
+					>
 						Já possuo uma conta
 					</BotaoDeLogin>
 				</ContainerDeLogin>
