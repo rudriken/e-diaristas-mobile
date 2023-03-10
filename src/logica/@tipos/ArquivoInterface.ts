@@ -1,5 +1,5 @@
 export interface ArquivoDoCampoDeArquivoInterface {
-	nome: string;
-	tipo: string;
-	caminho: string;
+	name: string;
+	type: string;
+	uri: string;
 }

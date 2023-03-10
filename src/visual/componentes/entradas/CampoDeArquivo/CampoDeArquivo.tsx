@@ -49,9 +49,9 @@ const CampoDeArquivo: React.FC<CampoDeArquivoProps> = ({
 		if (imagem.assets !== null) {
 			alterarCaminhoDoArquivo(imagem.assets[0].uri);
 			const arquivo = {
-				tipo: "image/png",
-				nome: "foto.png",
-				caminho:
+				type: "image/png",
+				name: "foto.png",
+				uri:
 					Platform.OS === "android"
 						? imagem.assets[0].uri
 						: "file://" + imagem.assets[0].uri,
