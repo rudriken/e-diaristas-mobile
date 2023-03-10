@@ -21,10 +21,7 @@ import Oportunidades from "pages/oportunidades";
 import Pagamentos from "pages/pagamentos";
 import { useContext } from "react";
 import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
-import {
-	ForcarEstadoUsuario,
-	TipoDoUsuario,
-} from "logica/@tipos/InterfaceDoUsuario";
+import { TipoDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
 import { useTheme } from "@emotion/react";
 import { ActivityIndicator } from "react-native-paper";
 
@@ -151,9 +148,8 @@ export default function Roteador() {
 	const { estadoUsuario } = useContext(ContextoUsuario),
 		logado = estadoUsuario.usuario.nome_completo.length > 0,
 		logando = estadoUsuario.logando;
-	const { forcarEstadoUsuario } = estadoUsuario;
 
-	if (logando && forcarEstadoUsuario === ForcarEstadoUsuario.nao) {
+	if (logando) {
 		return (
 			<View style={{ flex: 1, justifyContent: "center" }}>
 				<ActivityIndicator size={100} />
@@ -163,13 +159,7 @@ export default function Roteador() {
 
 	return (
 		<NavigationContainer theme={NavigationTema}>
-			{(!logado ||
-				forcarEstadoUsuario === ForcarEstadoUsuario.anonimo) && (
-				<RotasPublicas />
-			)}
-			{logado && forcarEstadoUsuario === ForcarEstadoUsuario.nao && (
-				<RotasPrivadas />
-			)}
+			{logado ? <RotasPrivadas /> : <RotasPublicas />}
 		</NavigationContainer>
 	);
 }
