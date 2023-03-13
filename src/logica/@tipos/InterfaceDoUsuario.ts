@@ -34,3 +34,9 @@ export enum TipoDoUsuario {
 	Cliente = 1,
 	Diarista = 2,
 }
+
+export enum ForcarEstadoUsuario {
+	nao,
+	autenticado,
+	anonimo,
+}

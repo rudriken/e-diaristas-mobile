@@ -21,9 +21,14 @@ import Oportunidades from "pages/oportunidades";
 import Pagamentos from "pages/pagamentos";
 import { useContext } from "react";
 import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
-import { TipoDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
+import {
+	ForcarEstadoUsuario,
+	TipoDoUsuario,
+} from "logica/@tipos/InterfaceDoUsuario";
 import { useTheme } from "@emotion/react";
-import { ActivityIndicator } from "react-native-paper";
+import { ActivityIndicator, Text } from "react-native-paper";
+import Botao from "visual/componentes/entradas/Botao/Botao";
+import { ServicoLogin } from "logica/servicos/ServicoLogin";
 
 export type listaDeParametrosDaPilhaRaiz = {
 	Index: undefined;
@@ -148,18 +153,26 @@ export default function Roteador() {
 	const { estadoUsuario } = useContext(ContextoUsuario),
 		logado = estadoUsuario.usuario.nome_completo.length > 0,
 		logando = estadoUsuario.logando;
+	const { forcarEstadoUsuario } = estadoUsuario;
 
-	if (logando) {
+	if (logando && forcarEstadoUsuario === ForcarEstadoUsuario.nao) {
 		return (
 			<View style={{ flex: 1, justifyContent: "center" }}>
 				<ActivityIndicator size={100} />
+				{/* <Botao onPress={ServicoLogin.sair}>Sair</Botao> */}
 			</View>
 		);
 	}
 
 	return (
 		<NavigationContainer theme={NavigationTema}>
-			{logado ? <RotasPrivadas /> : <RotasPublicas />}
+			{(!logado ||
+				forcarEstadoUsuario === ForcarEstadoUsuario.anonimo) && (
+				<RotasPublicas />
+			)}
+			{logado && forcarEstadoUsuario === ForcarEstadoUsuario.nao && (
+				<RotasPrivadas />
+			)}
 		</NavigationContainer>
 	);
 }

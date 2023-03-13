@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer } from "react";
 import produce from "immer";
 import {
+	ForcarEstadoUsuario,
 	InterfaceDoUsuario,
 	TipoDoUsuario,
 } from "logica/@tipos/InterfaceDoUsuario";
@@ -34,6 +35,7 @@ export const estadoInicial = {
 		numero: "",
 	} as EnderecoInterface,
 	logando: false,
+	forcarEstadoUsuario: ForcarEstadoUsuario.nao,
 };
 
 export type TipoDoEstadoInicial = typeof estadoInicial;
@@ -42,7 +44,8 @@ type AcoesUsuario =
 	| "SET_USER"
 	| "SET_LOGGING"
 	| "SET_ADDRESS_LIST"
-	| "SET_USER_ADDRESS";
+	| "SET_USER_ADDRESS"
+	| "FORCAR_ANONIMATO_DO_USUARIO";
 
 export type TipoDaAcaoDoUsuario = {
 	tipo: AcoesUsuario;
@@ -75,6 +78,10 @@ const redutor = (
 				break;
 			case "SET_LOGGING":
 				estadoRascunho.logando = acao.carregarObjeto as boolean;
+				break;
+			case "FORCAR_ANONIMATO_DO_USUARIO":
+				estadoRascunho.forcarEstadoUsuario =
+					acao.carregarObjeto as ForcarEstadoUsuario;
 				break;
 		}
 	});
