@@ -5,21 +5,21 @@ import CampoDeTextoComMascara from "../../CampoDeTextoComMascara/CampoDeTextoCom
 import CampoDeTexto from "../../CampoDeTexto/CampoDeTexto";
 import { useTheme } from "@emotion/react";
 import { Paragraph } from "react-native-paper";
+import {
+	CartaoDadosInterface,
+	PagamentoFormularioDeDadosInterface,
+} from "logica/@tipos/FormularioInterface";
 
 export const FormularioPagamento: React.FC = () => {
 	const {
 		register,
 		formState: { errors },
 		control,
-	} = useFormContext<{
-		pagamento: {
-			numero_cartao: string;
-			nome_titular_cartao: string;
-			validade: string;
-			codigo_cvv: string;
-		};
-		pagamento_recusado: object;
-	}>();
+	} = useFormContext<
+		PagamentoFormularioDeDadosInterface<CartaoDadosInterface> & {
+			pagamento_recusado: object;
+		}
+	>();
 	const cores = useTheme().colors;
 
 	useEffect(() => {
@@ -52,7 +52,7 @@ export const FormularioPagamento: React.FC = () => {
 			/>
 			<Controller
 				control={control}
-				name={"pagamento.nome_titular_cartao"}
+				name={"pagamento.nome_cartao"}
 				defaultValue={""}
 				render={({ field }) => {
 					return (
@@ -60,12 +60,9 @@ export const FormularioPagamento: React.FC = () => {
 							value={field.value}
 							onChangeText={(valor) => field.onChange(valor)}
 							label={"Nome impresso no cartão"}
-							error={
-								errors?.pagamento?.nome_titular_cartao !==
-								undefined
-							}
+							error={errors?.pagamento?.nome_cartao !== undefined}
 							textoDeAjuda={
-								errors?.pagamento?.nome_titular_cartao?.message
+								errors?.pagamento?.nome_cartao?.message
 							}
 						/>
 					);
@@ -91,7 +88,7 @@ export const FormularioPagamento: React.FC = () => {
 			/>
 			<Controller
 				control={control}
-				name={"pagamento.codigo_cvv"}
+				name={"pagamento.codigo"}
 				defaultValue={""}
 				render={({ field }) => {
 					return (
@@ -101,10 +98,8 @@ export const FormularioPagamento: React.FC = () => {
 							label={"CVV"}
 							mascara={"9999"}
 							keyboardType={"number-pad"}
-							error={errors?.pagamento?.codigo_cvv !== undefined}
-							textoDeAjuda={
-								errors?.pagamento?.codigo_cvv?.message
-							}
+							error={errors?.pagamento?.codigo !== undefined}
+							textoDeAjuda={errors?.pagamento?.codigo?.message}
 						/>
 					);
 				}}
