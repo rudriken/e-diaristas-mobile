@@ -59,14 +59,6 @@ const Contratacao: React.FC<ContratacaoProps> = ({ aoFinalizar }) => {
 		}, 100);
 	}, [passo]);
 
-	if (!servicos || servicos.length < 1 || !Array.isArray(servicos)) {
-		return (
-			<View style={{ flex: 1, justifyContent: "center" }}>
-				<ActivityIndicator size={100} />
-			</View>
-		);
-	}
-
 	useEffect(() => {
 		if (!estadoUsuario.usuario.nome_completo) {
 			despachoUsuario({
@@ -75,6 +67,14 @@ const Contratacao: React.FC<ContratacaoProps> = ({ aoFinalizar }) => {
 			});
 		}
 	}, []);
+
+	if (!servicos || servicos.length < 1 || !Array.isArray(servicos)) {
+		return (
+			<View style={{ flex: 1, justifyContent: "center" }}>
+				<ActivityIndicator size={100} />
+			</View>
+		);
+	}
 
 	function tratarFinalizacao() {
 		despachoUsuario({
