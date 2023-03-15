@@ -7,12 +7,14 @@ import { Paragraph } from "react-native-paper";
 import ListaDeDados from "visual/componentes/exibe-dados/ListaDeDados/ListaDeDados";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
 import { ServicoDiaria } from "logica/servicos/ServicoDiaria";
-import { DiariaStatus } from "logica/@tipos/DiariaInterface";
+import { DiariaInterface, DiariaStatus } from "logica/@tipos/DiariaInterface";
 import { useTheme } from "@emotion/react";
+import { SelecaoDialogo } from "./_minhas-diarias-dialogos";
 
 const MinhasDiarias = () => {
 	const {
 		dadosFiltrados,
+		diariaVisualizar,
 		alterarDiariaVisualizar,
 		podeVisualizar,
 		alterarDiariaConfirmar,
@@ -160,6 +162,18 @@ const MinhasDiarias = () => {
 				<Paragraph style={{ textAlign: "center", paddingTop: 80 }}>
 					Nenhuma diária ainda
 				</Paragraph>
+			)}
+
+			{diariaVisualizar.id && (
+				<SelecaoDialogo
+					diaria={diariaVisualizar}
+					aoConfirmar={() =>
+						alterarDiariaVisualizar({} as DiariaInterface)
+					}
+					aoCancelar={() =>
+						alterarDiariaVisualizar({} as DiariaInterface)
+					}
+				/>
 			)}
 		</ScrollView>
 	);
