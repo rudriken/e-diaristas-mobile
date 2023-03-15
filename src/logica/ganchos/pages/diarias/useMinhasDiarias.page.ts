@@ -23,6 +23,9 @@ export default function useMinhasDiarias() {
 		[diariaCancelar, alterarDiariaCancelar] = useState(
 			{} as DiariaInterface
 		);
+	const [diariaVisualizar, alterarDiariaVisualizar] = useState(
+		{} as DiariaInterface
+	);
 
 	function podeVisualizar(diaria: DiariaInterface): boolean {
 		return linksResolver(diaria.links, "self") !== undefined;
@@ -127,6 +130,8 @@ export default function useMinhasDiarias() {
 		totalPaginas,
 		itensPorPagina,
 		movel,
+		diariaVisualizar,
+		alterarDiariaVisualizar,
 		podeVisualizar,
 		diariaConfirmar,
 		alterarDiariaConfirmar,

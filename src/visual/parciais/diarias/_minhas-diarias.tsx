@@ -8,9 +8,35 @@ import ListaDeDados from "visual/componentes/exibe-dados/ListaDeDados/ListaDeDad
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
 import { ServicoDiaria } from "logica/servicos/ServicoDiaria";
 import { DiariaStatus } from "logica/@tipos/DiariaInterface";
+import { useTheme } from "@emotion/react";
 
 const MinhasDiarias = () => {
-	const { dadosFiltrados, filtro, modificarFiltro } = useMinhasDiarias();
+	const {
+		dadosFiltrados,
+		paginaAtual,
+		alterarPaginaAtual,
+		totalPaginas,
+		itensPorPagina,
+		movel,
+		diariaVisualizar,
+		alterarDiariaVisualizar,
+		podeVisualizar,
+		diariaConfirmar,
+		alterarDiariaConfirmar,
+		podeConfirmar,
+		confirmarDiaria,
+		diariaAvaliar,
+		alterarDiariaAvaliar,
+		podeAvaliar,
+		avaliarDiaria,
+		podeCancelar,
+		diariaCancelar,
+		alterarDiariaCancelar,
+		cancelarDiaria,
+		filtro,
+		modificarFiltro,
+	} = useMinhasDiarias();
+	const cores = useTheme().colors;
 
 	return (
 		<ScrollView>
@@ -78,6 +104,64 @@ const MinhasDiarias = () => {
 												item.preco
 											)}
 										</Text>
+									</>
+								}
+								acoes={
+									<>
+										{podeVisualizar(item) && (
+											<Botao
+												uppercase={false}
+												dark
+												mode={"contained"}
+												buttonColor={cores.secondary}
+												onPress={() =>
+													alterarDiariaVisualizar(
+														item
+													)
+												}
+											>
+												Detalhes
+											</Botao>
+										)}
+										{podeConfirmar(item) && (
+											<Botao
+												uppercase={false}
+												dark
+												mode={"contained"}
+												buttonColor={cores.success}
+												onPress={() =>
+													alterarDiariaConfirmar(item)
+												}
+											>
+												Confirmar Presença
+											</Botao>
+										)}
+										{podeAvaliar(item) && (
+											<Botao
+												uppercase={false}
+												dark
+												mode={"contained"}
+												buttonColor={cores.success}
+												onPress={() =>
+													alterarDiariaAvaliar(item)
+												}
+											>
+												Avaliar
+											</Botao>
+										)}
+										{podeCancelar(item) && (
+											<Botao
+												uppercase={false}
+												dark
+												mode={"contained"}
+												buttonColor={cores.error}
+												onPress={() =>
+													alterarDiariaCancelar(item)
+												}
+											>
+												Cancelar
+											</Botao>
+										)}
 									</>
 								}
 							/>
