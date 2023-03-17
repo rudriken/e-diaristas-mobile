@@ -9,7 +9,11 @@ import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTex
 import { ServicoDiaria } from "logica/servicos/ServicoDiaria";
 import { DiariaInterface, DiariaStatus } from "logica/@tipos/DiariaInterface";
 import { useTheme } from "@emotion/react";
-import { ConfirmarDialogo, SelecaoDialogo } from "./_minhas-diarias-dialogos";
+import {
+	AvaliarDialogo,
+	ConfirmarDialogo,
+	SelecaoDialogo,
+} from "./_minhas-diarias-dialogos";
 
 const MinhasDiarias = () => {
 	const {
@@ -21,8 +25,10 @@ const MinhasDiarias = () => {
 		alterarDiariaConfirmar,
 		podeConfirmar,
 		confirmarDiaria,
+		diariaAvaliar,
 		alterarDiariaAvaliar,
 		podeAvaliar,
+		avaliarDiaria,
 		podeCancelar,
 		alterarDiariaCancelar,
 		filtro,
@@ -184,6 +190,16 @@ const MinhasDiarias = () => {
 					aoConfirmar={confirmarDiaria}
 					aoCancelar={() =>
 						alterarDiariaConfirmar({} as DiariaInterface)
+					}
+				/>
+			)}
+
+			{diariaAvaliar.id && (
+				<AvaliarDialogo
+					diaria={diariaAvaliar}
+					aoConfirmar={avaliarDiaria}
+					aoCancelar={() =>
+						alterarDiariaAvaliar({} as DiariaInterface)
 					}
 				/>
 			)}

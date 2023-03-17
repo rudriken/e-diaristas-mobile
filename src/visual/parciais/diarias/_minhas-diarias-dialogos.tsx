@@ -1,9 +1,14 @@
 import { useTheme } from "@emotion/react";
 import { DiariaInterface } from "logica/@tipos/DiariaInterface";
+import { TipoDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
+import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { ServicoData } from "logica/servicos/ServicoData";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
+import { useContext, useState } from "react";
 import { Text, View, ScrollView } from "react-native";
-import { Caption } from "react-native-paper";
+import { Caption, Subheading, Title } from "react-native-paper";
+import { Rating } from "react-native-ratings";
+import CampoDeTexto from "visual/componentes/entradas/CampoDeTexto/CampoDeTexto";
 import InformacaoDoUsuario from "visual/componentes/exibe-dados/InformacaoDoUsuario/InformacaoDoUsuario";
 import Dialogo from "visual/componentes/retorno/Dialogo/Dialogo";
 
@@ -114,6 +119,76 @@ export const ConfirmarDialogo: React.FC<DialogoProps> = (propriedades) => {
 					contato com a nossa equipe pelo e-mail
 					sac@e-diaristas.com.br
 				</Caption>
+			</ScrollView>
+		</Dialogo>
+	);
+};
+
+interface AvaliarDialogoProps extends Omit<DialogoProps, "aoConfirmar"> {
+	aoConfirmar: (
+		diaria: DiariaInterface,
+		avaliacao: { descricao: string; nota: number }
+	) => void;
+}
+
+export const AvaliarDialogo: React.FC<AvaliarDialogoProps> = (propriedades) => {
+	const cores = useTheme().colors,
+		[descricao, alterarDescricao] = useState(""),
+		[nota, alterarNota] = useState(3),
+		[erro, alterarErro] = useState(""),
+		{ usuario } = useContext(ContextoUsuario).estadoUsuario,
+		usuarioAvaliado =
+			usuario.tipo_usuario === TipoDoUsuario.Cliente
+				? propriedades.diaria.diarista
+				: propriedades.diaria.cliente;
+
+	function tentarAvaliar() {
+		if (descricao.length > 3) {
+			propriedades.aoConfirmar(propriedades.diaria, { descricao, nota });
+		} else {
+			alterarErro("Escreva um depoimento");
+		}
+	}
+
+	return (
+		<Dialogo
+			aberto={true}
+			aoFechar={propriedades.aoCancelar}
+			aoConfirmar={tentarAvaliar}
+			rotuloCancelar={"Fechar"}
+			subtitulo={"Avalie a diária abaixo"}
+		>
+			<ScrollView>
+				<CaixinhaDeTrabalho diaria={propriedades.diaria} />
+				<InformacaoDoUsuario
+					nome={usuarioAvaliado?.nome_completo || ""}
+					avaliacao={usuarioAvaliado?.reputacao || 1}
+					foto={usuarioAvaliado?.foto_usuario || ""}
+					descricao={
+						"Telefone: " +
+						ServicoFormatadorDeTexto.formatarTelefone(
+							usuarioAvaliado?.telefone || ""
+						)
+					}
+				/>
+				<Title>Deixe a sua avaliação</Title>
+				<Subheading>Nota:</Subheading>
+				<Rating
+					minValue={1}
+					imageSize={30}
+					tintColor={cores.grey[100]}
+					startingValue={nota}
+					onFinishRating={alterarNota}
+				/>
+				<Subheading style={{ marginTop: 32 }}>Depoimento:</Subheading>
+				<CampoDeTexto
+					placeholder={"Digite aqui seu depoimento"}
+					multiline
+					numberOfLines={5}
+					value={descricao}
+					onChangeText={alterarDescricao}
+				/>
+				<Text style={{ color: cores.error }}>{erro}</Text>
 			</ScrollView>
 		</Dialogo>
 	);
