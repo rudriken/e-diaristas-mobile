@@ -193,3 +193,80 @@ export const AvaliarDialogo: React.FC<AvaliarDialogoProps> = (propriedades) => {
 		</Dialogo>
 	);
 };
+
+interface CancelarDialogoProps extends Omit<DialogoProps, "aoConfirmar"> {
+	aoConfirmar: (diaria: DiariaInterface, motivo: string) => void;
+}
+
+export const CancelarDialogo: React.FC<CancelarDialogoProps> = (
+	propriedades
+) => {
+	const [motivo, alterarMotivo] = useState(""),
+		[erro, alterarErro] = useState(""),
+		{ usuario } = useContext(ContextoUsuario).estadoUsuario;
+
+	function tentarCancelar() {
+		if (motivo.length > 3) {
+			propriedades.aoConfirmar(propriedades.diaria, motivo);
+		} else {
+			alterarErro("Digite o motivo do cancelamento");
+		}
+	}
+
+	function pegarAviso(): string {
+		if (usuario.id) {
+			if (usuario.tipo_usuario === TipoDoUsuario.Diarista) {
+				return (
+					"Ao cancelar uma diária, você pode ser penalizado(a) com a " +
+					"diminuição da sua reputação. Quanto menor a sua reputação, menos " +
+					"chance de ser selecionado(a) para as próximas oportunidades. " +
+					"O cancelamento de diárias deve ser feito somente em situações de " +
+					"exceção."
+				);
+			} else {
+				const dataAtendimento = new Date(
+					propriedades.diaria.data_atendimento
+				);
+				if (ServicoData.pegarDiferencaDeHoras(dataAtendimento) < 24) {
+					return (
+						"Ao cancelar a diária, devido à proximidade com o horário de " +
+						"agendamento do serviço, o sistema cobrará uma multa de 50% " +
+						"sobre o valor da diária. O cancelamento de diárias deve ser " +
+						"feito somente em situações de exceção."
+					);
+				}
+				return (
+					"Ao cancelar uma diária o(a) profissional que já havia agendado " +
+					"um dia na sua agenda acaba sendo prejudicado(a). O cancelamento de " +
+					"diárias deve ser feito somente em situações de exceção."
+				);
+			}
+		}
+		return "";
+	}
+
+	return (
+		<Dialogo
+			aberto={true}
+			aoFechar={propriedades.aoCancelar}
+			aoConfirmar={tentarCancelar}
+			rotuloCancelar={"Fechar"}
+			subtitulo={"Tem certeza que deseja cancelar a diária abaixo?"}
+		>
+			<ScrollView>
+				<CaixinhaDeTrabalho diaria={propriedades.diaria} />
+				<CampoDeTexto
+					placeholder={"Digite o motivo do cancelamento"}
+					multiline
+					numberOfLines={5}
+					value={motivo}
+					onChangeText={alterarMotivo}
+					style={{ marginTop: 32 }}
+					error={erro !== ""}
+					textoDeAjuda={erro}
+				/>
+				<Caption>{pegarAviso()}</Caption>
+			</ScrollView>
+		</Dialogo>
+	);
+};

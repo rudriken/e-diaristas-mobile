@@ -11,6 +11,7 @@ import { DiariaInterface, DiariaStatus } from "logica/@tipos/DiariaInterface";
 import { useTheme } from "@emotion/react";
 import {
 	AvaliarDialogo,
+	CancelarDialogo,
 	ConfirmarDialogo,
 	SelecaoDialogo,
 } from "./_minhas-diarias-dialogos";
@@ -30,7 +31,9 @@ const MinhasDiarias = () => {
 		podeAvaliar,
 		avaliarDiaria,
 		podeCancelar,
+		diariaCancelar,
 		alterarDiariaCancelar,
+		cancelarDiaria,
 		filtro,
 		modificarFiltro,
 	} = useMinhasDiarias();
@@ -200,6 +203,16 @@ const MinhasDiarias = () => {
 					aoConfirmar={avaliarDiaria}
 					aoCancelar={() =>
 						alterarDiariaAvaliar({} as DiariaInterface)
+					}
+				/>
+			)}
+
+			{diariaCancelar.id && (
+				<CancelarDialogo
+					diaria={diariaCancelar}
+					aoConfirmar={cancelarDiaria}
+					aoCancelar={() =>
+						alterarDiariaCancelar({} as DiariaInterface)
 					}
 				/>
 			)}
