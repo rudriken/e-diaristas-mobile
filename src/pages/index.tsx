@@ -50,6 +50,9 @@ const Index = () => {
 							mode={"contained"}
 							larguraTotal
 							dark
+							onPress={() =>
+								navegacao.navigate("CadastroDiarista")
+							}
 						>
 							Ser Diarista
 						</BotaoDeRegistro>
