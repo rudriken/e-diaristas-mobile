@@ -7,6 +7,7 @@ import { useTheme } from "@emotion/react";
 import MigalhaDePao from "visual/componentes/navegacao/MigalhaDePao/MigalhaDePao";
 import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagina";
 import {
+	FormularioCidades,
 	FormularioDadosUsuario,
 	FormularioEndereco,
 	FormularioFinanceiro,
@@ -25,7 +26,11 @@ const Diarista = () => {
 			esperandoResposta,
 			migalhaDePaoItens,
 			formularioUsuario,
+			formularioListaDeCidades,
+			novoEndereco,
+			cidadesAtendidas,
 			aoSubmeterUsuario,
+			aoSubmeterEndereco,
 		} = useCadastroDiarista(),
 		cores = useTheme().colors;
 
@@ -117,6 +122,36 @@ const Diarista = () => {
 								Cadastrar e escolher cidades
 							</Botao>
 						</View>
+					</FormProvider>
+				</View>
+
+				<View style={{ display: passo !== 2 ? "none" : "flex" }}>
+					<FormProvider {...formularioListaDeCidades}>
+						<TituloDoGrupoDeCampoFormulario>
+							Selecione a cidade
+						</TituloDoGrupoDeCampoFormulario>
+						{novoEndereco && (
+							<FormularioCidades estado={novoEndereco.estado} />
+						)}
+
+						<Botao
+							uppercase={false}
+							dark
+							buttonColor={cores.accent}
+							mode={"contained"}
+							onPress={formularioListaDeCidades.handleSubmit(
+								aoSubmeterEndereco
+							)}
+							larguraTotal
+							style={{ marginTop: 32, marginBottom: 24 }}
+							disabled={
+								esperandoResposta ||
+								cidadesAtendidas === undefined ||
+								cidadesAtendidas?.length === 0
+							}
+						>
+							Finalizar o cadastro
+						</Botao>
 					</FormProvider>
 				</View>
 			</FormularioUsuarioContainer>
