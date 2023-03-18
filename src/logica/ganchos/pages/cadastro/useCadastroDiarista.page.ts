@@ -1,4 +1,14 @@
+import { useContext, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { LocalStorage } from "logica/servicos/ServicoArmazenamento";
+import {
+	linksResolver,
+	ServicoAPI,
+	ServicoAPIHateoas,
+} from "logica/servicos/ServicoAPI";
+import { ServicoUsuario } from "logica/servicos/ServicoUsuario";
+import { ContextoServicosExternos } from "logica/contextos/ContextoServicosExternos";
 import { ApiLinksInterface } from "logica/@tipos/ApiLinksInterface";
 import { EnderecoInterface } from "logica/@tipos/EnderecoInterface";
 import { CadastroDiaristaFormularioDeDadosInterface } from "logica/@tipos/FormularioInterface";
@@ -6,18 +16,8 @@ import {
 	InterfaceDoUsuario,
 	TipoDoUsuario,
 } from "logica/@tipos/InterfaceDoUsuario";
-import { ContextoServicosExternos } from "logica/contextos/ContextoServicosExternos";
-import {
-	linksResolver,
-	ServicoAPI,
-	ServicoAPIHateoas,
-} from "logica/servicos/ServicoAPI";
-import { LocalStorage } from "logica/servicos/ServicoArmazenamento";
 import { ServicoEstruturaFormulario } from "logica/servicos/ServicoEstruturaFormulario";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
-import { ServicoUsuario } from "logica/servicos/ServicoUsuario";
-import { useContext, useState } from "react";
-import { useForm } from "react-hook-form";
 
 export default function useCadastroDiarista() {
 	const [passo, alterarPasso] = useState(1),
