@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { FormProvider } from "react-hook-form";
 import { ServicoMovel } from "logica/servicos/ServicoMovel";
@@ -18,6 +18,9 @@ import {
 } from "visual/componentes/entradas/FormularioUsuario/FormularioUsuario";
 import { Paragraph } from "react-native-paper";
 import Botao from "visual/componentes/entradas/Botao/Botao";
+import Dialogo from "visual/componentes/retorno/Dialogo/Dialogo";
+import { ServicoLogin } from "logica/servicos/ServicoLogin";
+import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 
 const Diarista = () => {
 	const scrollViewRef = useRef<ScrollView>(null),
@@ -28,17 +31,24 @@ const Diarista = () => {
 			formularioUsuario,
 			formularioListaDeCidades,
 			novoEndereco,
+			sucessoCadastro,
 			cidadesAtendidas,
 			aoSubmeterUsuario,
 			aoSubmeterEndereco,
 		} = useCadastroDiarista(),
 		cores = useTheme().colors;
+	const { despachoUsuario } = useContext(ContextoUsuario);
 
 	useEffect(() => {
 		setTimeout(() => {
 			ServicoMovel.rolarParaCima(scrollViewRef.current);
 		}, 100);
 	}, [passo]);
+
+	async function aoFinalizar() {
+		const usuario = await ServicoLogin.informacoes();
+		despachoUsuario({ tipo: "SET_USER", carregarObjeto: usuario });
+	}
 
 	return (
 		<ScrollView ref={scrollViewRef}>
@@ -154,6 +164,20 @@ const Diarista = () => {
 						</Botao>
 					</FormProvider>
 				</View>
+
+				<Dialogo
+					aberto={sucessoCadastro}
+					aoFechar={() => {}}
+					titulo={"Cadastro realizado com sucesso!"}
+					naoTerBotaoCancelar
+					rotuloConfirmar={"Ver oportunidades"}
+					aoConfirmar={aoFinalizar}
+				>
+					<Text>
+						Agora você pode visualizar as oportunidades disponíveis
+						na sua região.
+					</Text>
+				</Dialogo>
 			</FormularioUsuarioContainer>
 		</ScrollView>
 	);
