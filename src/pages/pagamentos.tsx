@@ -9,20 +9,30 @@ import Botao from "visual/componentes/entradas/Botao/Botao";
 import { BotoesContainer } from "@parciais/diarias/_minhas-diarias.styled";
 
 const Pagamentos = () => {
-	const { dadosFiltrados } = usePagamentos();
+	const { dadosFiltrados, filtro, modificarFiltro } = usePagamentos();
 	return (
 		<ScrollView>
 			<TituloPagina titulo={"Pagamentos"} />
 			<BotoesContainer>
-				<Botao uppercase={false} dark>
+				<Botao
+					uppercase={false}
+					dark
+					onPress={() => modificarFiltro("pago")}
+					mode={filtro === "pago" ? "contained" : "outlined"}
+				>
 					Pago
 				</Botao>
-				<Botao uppercase={false} dark>
+				<Botao
+					uppercase={false}
+					dark
+					onPress={() => modificarFiltro("aguardando")}
+					mode={filtro === "aguardando" ? "contained" : "outlined"}
+				>
 					Aguardando Transferência
 				</Botao>
 			</BotoesContainer>
 
-			{true ? (
+			{dadosFiltrados.length > 0 ? (
 				<>
 					{dadosFiltrados.map((item) => {
 						return (
