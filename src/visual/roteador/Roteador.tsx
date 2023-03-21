@@ -151,6 +151,7 @@ const RotasPrivadas = () => {
 
 export default function Roteador() {
 	const { estadoUsuario } = useContext(ContextoUsuario);
+	// console.log("estadoUsuario:", estadoUsuario);
 	const logado = estadoUsuario.usuario.nome_completo.length > 0;
 	const logando = estadoUsuario.logando;
 	const { forcarEstadoUsuario } = estadoUsuario;
