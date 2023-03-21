@@ -22,22 +22,9 @@ const Oportunidades = () => {
 			totalComodos,
 			podeCandidatar,
 		} = useOportunidadesTrabalho();
-	console.log(oportunidades);
 	return (
 		<ScrollView>
 			<TituloPagina titulo={"Oportunidades de trabalho"} />
-
-			{oportunidades.length > 0 ? (
-				<>
-					{oportunidades.map((item) => {
-						return <ListaDeDados />;
-					})}
-				</>
-			) : (
-				<Paragraph style={{ paddingTop: 80, textAlign: "center" }}>
-					Nenhuma oportunidade ainda
-				</Paragraph>
-			)}
 		</ScrollView>
 	);
 };
