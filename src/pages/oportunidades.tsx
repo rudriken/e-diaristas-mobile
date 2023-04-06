@@ -6,10 +6,18 @@ import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
 import { Paragraph } from "react-native-paper";
 import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagina";
 import ListaDeDados from "visual/componentes/exibe-dados/ListaDeDados/ListaDeDados";
+import Botao from "visual/componentes/entradas/Botao/Botao";
+import Dialogo from "visual/componentes/retorno/Dialogo/Dialogo";
 
 const Oportunidades = () => {
 	const cores = useTheme().colors;
-	const { oportunidades, totalComodos } = useOportunidadesTrabalho();
+	const {
+		oportunidades,
+		totalComodos,
+		oportunidadeSelecionada,
+		alterarOportunidadeSelecionada,
+		podeCandidatar,
+	} = useOportunidadesTrabalho();
 
 	let oportunidadesC = oportunidades;
 	if (typeof oportunidades === "string") {
@@ -53,6 +61,25 @@ const Oportunidades = () => {
 										</Text>
 									</>
 								}
+								acoes={
+									<>
+										{podeCandidatar(item) && (
+											<Botao
+												uppercase={false}
+												dark
+												buttonColor={cores.secondary}
+												mode={"contained"}
+												onPress={() =>
+													alterarOportunidadeSelecionada(
+														item
+													)
+												}
+											>
+												Se candidatar
+											</Botao>
+										)}
+									</>
+								}
 							/>
 						);
 					})}
@@ -61,6 +88,13 @@ const Oportunidades = () => {
 				<Paragraph style={{ paddingTop: 80, textAlign: "center" }}>
 					Nenhuma oportunidade ainda
 				</Paragraph>
+			)}
+
+			{oportunidadeSelecionada !== undefined && (
+				<Dialogo
+					aberto={true}
+					aoFechar={() => alterarOportunidadeSelecionada(undefined)}
+				></Dialogo>
 			)}
 		</ScrollView>
 	);
