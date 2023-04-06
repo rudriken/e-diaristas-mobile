@@ -1,13 +1,18 @@
+import { useContext } from "react";
 import { Image, View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
 import {
 	createStackNavigator,
 	StackNavigationOptions,
 } from "@react-navigation/stack";
+import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
+import { useTheme } from "@emotion/react";
 import {
 	BottomTabNavigationOptions,
 	createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
+import { ServicoLogin } from "logica/servicos/ServicoLogin";
 import Logo from "@assets/img/logos/e-diaristas-logo.png";
 import { NavigationTema } from "visual/temas/app-tema";
 import Index from "pages";
@@ -19,16 +24,12 @@ import Diarias from "pages/diarias";
 import Login from "pages/login";
 import Oportunidades from "pages/oportunidades";
 import Pagamentos from "pages/pagamentos";
-import { useContext } from "react";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import {
 	ForcarEstadoUsuario,
 	TipoDoUsuario,
 } from "logica/@tipos/InterfaceDoUsuario";
-import { useTheme } from "@emotion/react";
-import { ActivityIndicator, Text } from "react-native-paper";
 import Botao from "visual/componentes/entradas/Botao/Botao";
-import { ServicoLogin } from "logica/servicos/ServicoLogin";
+import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
 
 export type listaDeParametrosDaPilhaRaiz = {
 	Index: undefined;
@@ -151,7 +152,11 @@ const RotasPrivadas = () => {
 
 export default function Roteador() {
 	const { estadoUsuario } = useContext(ContextoUsuario);
-	// console.log("estadoUsuario:", estadoUsuario);
+
+	if (typeof estadoUsuario.usuario === "string") {
+		estadoUsuario.usuario = stringParaObjeto(estadoUsuario.usuario);
+	}
+
 	const logado = estadoUsuario.usuario.nome_completo.length > 0;
 	const logando = estadoUsuario.logando;
 	const { forcarEstadoUsuario } = estadoUsuario;
