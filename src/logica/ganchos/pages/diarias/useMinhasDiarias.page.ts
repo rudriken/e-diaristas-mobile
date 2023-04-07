@@ -5,6 +5,7 @@ import { ContextoDiaria } from "logica/contextos/ContextoDiarias";
 import { DiariaInterface, DiariaStatus } from "logica/@tipos/DiariaInterface";
 import { linksResolver, ServicoAPIHateoas } from "logica/servicos/ServicoAPI";
 import { mutate } from "swr";
+import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
 
 export default function useMinhasDiarias() {
 	const movel = useMovelAtivo(),
@@ -96,6 +97,10 @@ export default function useMinhasDiarias() {
 		diarias: DiariaInterface[],
 		filtro: string
 	): DiariaInterface[] {
+		if (diarias && typeof diarias === "string") {
+			diarias = stringParaObjeto(diarias) as DiariaInterface[];
+		}
+
 		return diarias.filter((item) => {
 			const avaliada = [DiariaStatus.AVALIADO].includes(
 				item.status as DiariaStatus
