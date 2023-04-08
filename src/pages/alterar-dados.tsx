@@ -10,6 +10,7 @@ import {
 	TipoDoUsuario,
 } from "logica/@tipos/InterfaceDoUsuario";
 import {
+	FormularioContato,
 	FormularioDadosUsuario,
 	FormularioFinanceiro,
 	FormularioUsuarioContainer,
@@ -98,6 +99,18 @@ const AlterarDados = () => {
 								</FormularioContainer>
 							</View>
 						)}
+
+						<View style={{ marginBottom: 40 }}>
+							<TituloDoGrupoDeCampoFormulario
+								style={{ marginTop: 40 }}
+							>
+								Dados de acesso
+							</TituloDoGrupoDeCampoFormulario>
+							<FormularioContainer>
+								<FormularioContato />
+							</FormularioContainer>
+						</View>
+
 						<Botao onPress={sair}>Sair</Botao>
 					</FormProvider>
 				</FormularioUsuarioContainer>
