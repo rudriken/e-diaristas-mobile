@@ -12,6 +12,7 @@ import {
 import {
 	FormularioContato,
 	FormularioDadosUsuario,
+	FormularioEndereco,
 	FormularioFinanceiro,
 	FormularioUsuarioContainer,
 	TituloDoGrupoDeCampoFormulario,
@@ -110,6 +111,19 @@ const AlterarDados = () => {
 								<FormularioContato />
 							</FormularioContainer>
 						</View>
+
+						{usuario.tipo_usuario === TipoDoUsuario.Diarista && (
+							<View style={{ marginBottom: 40 }}>
+								<TituloDoGrupoDeCampoFormulario
+									style={{ marginTop: 40 }}
+								>
+									Endereço
+								</TituloDoGrupoDeCampoFormulario>
+								<FormularioContainer>
+									<FormularioEndereco />
+								</FormularioContainer>
+							</View>
+						)}
 
 						<Botao onPress={sair}>Sair</Botao>
 					</FormProvider>
