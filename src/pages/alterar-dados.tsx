@@ -10,6 +10,7 @@ import {
 	TipoDoUsuario,
 } from "logica/@tipos/InterfaceDoUsuario";
 import {
+	FormularioCidades,
 	FormularioContato,
 	FormularioDadosUsuario,
 	FormularioEndereco,
@@ -24,8 +25,13 @@ import { FormularioContainer } from "@parciais/encontrar-diarista/_verificar-pro
 
 const AlterarDados = () => {
 	const { despachoUsuario } = useContext(ContextoUsuario);
-	const { usuario, formularioMetodos, foto, alterarArquivoDaFoto } =
-		useAlterarDados();
+	const {
+		usuario,
+		formularioMetodos,
+		foto,
+		alterarArquivoDaFoto,
+		enderecoUsuario,
+	} = useAlterarDados();
 
 	function sair() {
 		ServicoLogin.sair();
@@ -113,16 +119,30 @@ const AlterarDados = () => {
 						</View>
 
 						{usuario.tipo_usuario === TipoDoUsuario.Diarista && (
-							<View style={{ marginBottom: 40 }}>
-								<TituloDoGrupoDeCampoFormulario
-									style={{ marginTop: 40 }}
-								>
-									Endereço
-								</TituloDoGrupoDeCampoFormulario>
-								<FormularioContainer>
-									<FormularioEndereco />
-								</FormularioContainer>
-							</View>
+							<>
+								<View style={{ marginBottom: 40 }}>
+									<TituloDoGrupoDeCampoFormulario
+										style={{ marginTop: 40 }}
+									>
+										Endereço
+									</TituloDoGrupoDeCampoFormulario>
+									<FormularioContainer>
+										<FormularioEndereco />
+									</FormularioContainer>
+								</View>
+								<View style={{ marginBottom: 40 }}>
+									<TituloDoGrupoDeCampoFormulario
+										style={{ marginTop: 40 }}
+									>
+										Cidades
+									</TituloDoGrupoDeCampoFormulario>
+									<FormularioContainer>
+										<FormularioCidades
+											estado={enderecoUsuario.estado}
+										/>
+									</FormularioContainer>
+								</View>
+							</>
 						)}
 
 						<Botao onPress={sair}>Sair</Botao>
