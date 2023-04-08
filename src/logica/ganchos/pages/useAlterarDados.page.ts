@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios, { AxiosResponse } from "axios";
+import { ArquivoDoCampoDeArquivoInterface } from "logica/@tipos/ArquivoInterface";
 import { EnderecoInterface } from "logica/@tipos/EnderecoInterface";
 import { CadastroDiaristaFormularioDeDadosInterface } from "logica/@tipos/FormularioInterface";
 import {
@@ -23,7 +24,9 @@ export default function useAlterarDados() {
 			}
 		),
 		[foto, alterarFoto] = useState(""),
-		[arquivoDaFoto, alterarArquivoDaFoto] = useState<File>(),
+		[arquivoDaFoto, alterarArquivoDaFoto] = useState<
+			File | ArquivoDoCampoDeArquivoInterface
+		>(),
 		[mensagemDeFeedback, alterarMensagemDeFeedback] = useState("");
 
 	useEffect(() => {
@@ -212,5 +215,6 @@ export default function useAlterarDados() {
 		mensagemDeFeedback,
 		alterarMensagemDeFeedback,
 		aoSubmeterFormulario,
+		alterarArquivoDaFoto,
 	};
 }

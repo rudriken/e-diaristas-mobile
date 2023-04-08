@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { View } from "react-native";
 import { Controller, useFormContext } from "react-hook-form";
 import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
-import CampoDeTexto from "../../CampoDeTexto/CampoDeTexto";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
+import CampoDeTexto from "../../CampoDeTexto/CampoDeTexto";
 import CampoDeTextoComMascara from "../../CampoDeTextoComMascara/CampoDeTextoComMascara";
 
 export interface FormularioDadosUsuarioProps {
