@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { ScrollView, View } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import { ActivityIndicator, Snackbar } from "react-native-paper";
 import { FormProvider, Controller } from "react-hook-form";
+import { useTheme } from "@emotion/react";
 import useAlterarDados from "logica/ganchos/pages/useAlterarDados.page";
 import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { ServicoLogin } from "logica/servicos/ServicoLogin";
@@ -31,7 +32,11 @@ const AlterarDados = () => {
 		foto,
 		alterarArquivoDaFoto,
 		enderecoUsuario,
+		aoSubmeterFormulario,
+		mensagemDeFeedback,
+		alterarMensagemDeFeedback,
 	} = useAlterarDados();
+	const cores = useTheme().colors;
 
 	function sair() {
 		ServicoLogin.sair();
@@ -145,10 +150,33 @@ const AlterarDados = () => {
 							</>
 						)}
 
-						<Botao onPress={sair}>Sair</Botao>
+						<Botao
+							uppercase={false}
+							dark
+							mode={"contained"}
+							buttonColor={cores.accent}
+							larguraTotal
+							style={{ marginBottom: 16 }}
+							onPress={formularioMetodos.handleSubmit(
+								aoSubmeterFormulario
+							)}
+						>
+							Salvar
+						</Botao>
+						<Botao uppercase={false} larguraTotal onPress={sair}>
+							Sair
+						</Botao>
 					</FormProvider>
 				</FormularioUsuarioContainer>
 			</ScrollView>
+
+			<Snackbar
+				visible={mensagemDeFeedback.length > 0}
+				duration={4000}
+				onDismiss={() => alterarMensagemDeFeedback("")}
+			>
+				{mensagemDeFeedback}
+			</Snackbar>
 		</>
 	);
 };
