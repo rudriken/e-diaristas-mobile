@@ -11,6 +11,7 @@ import {
 } from "logica/@tipos/InterfaceDoUsuario";
 import {
 	FormularioDadosUsuario,
+	FormularioFinanceiro,
 	FormularioUsuarioContainer,
 	TituloDoGrupoDeCampoFormulario,
 } from "visual/componentes/entradas/FormularioUsuario/FormularioUsuario";
@@ -84,6 +85,19 @@ const AlterarDados = () => {
 								<FormularioDadosUsuario />
 							</FormularioContainer>
 						</View>
+
+						{usuario.tipo_usuario === TipoDoUsuario.Diarista && (
+							<View style={{ marginBottom: 40 }}>
+								<TituloDoGrupoDeCampoFormulario
+									style={{ marginTop: 40 }}
+								>
+									Financeiro
+								</TituloDoGrupoDeCampoFormulario>
+								<FormularioContainer>
+									<FormularioFinanceiro />
+								</FormularioContainer>
+							</View>
+						)}
 						<Botao onPress={sair}>Sair</Botao>
 					</FormProvider>
 				</FormularioUsuarioContainer>
