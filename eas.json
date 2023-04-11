@@ -23,6 +23,12 @@
 		}
 	},
 	"submit": {
-		"production": {}
+		"production": {
+			"ios": {
+				"ascApiKeyIssuerId": "2d93d052a34-sfd342fsdf4-s38r9fjw3f43sef",
+				"ascApiKeyId": "1111111111111",
+				"ascApiKeyPath": "minha-chave.p8"
+			}
+		}
 	}
 }
