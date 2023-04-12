@@ -28,6 +28,7 @@ import { ServicoLogin } from "logica/servicos/ServicoLogin";
 import { ApiLinksInterface } from "logica/@tipos/ApiLinksInterface";
 import { ServicoUsuario } from "logica/servicos/ServicoUsuario";
 import { ServicoPagamento } from "logica/servicos/ServicoPagamento";
+import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
 
 export default function useContratacao() {
 	const [passo, alterarPasso] = useState(1),
@@ -180,11 +181,18 @@ export default function useContratacao() {
 		dados: CadastroClienteFormularioDeDadosInterface,
 		link: ApiLinksInterface
 	) {
-		const novoUsuario = await ServicoUsuario.cadastrar(
+		let novoUsuarioC = await ServicoUsuario.cadastrar(
 			dados.usuario,
 			TipoDoUsuario.Cliente,
 			link
 		);
+
+		if (novoUsuarioC && typeof novoUsuarioC === "string") {
+			novoUsuarioC = stringParaObjeto(novoUsuarioC);
+		}
+
+		const novoUsuario = novoUsuarioC;
+
 		if (novoUsuario) {
 			const loginSucesso = await login({
 				email: dados.usuario.email,

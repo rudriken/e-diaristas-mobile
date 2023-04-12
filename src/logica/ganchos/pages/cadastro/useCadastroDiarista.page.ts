@@ -18,6 +18,7 @@ import {
 } from "logica/@tipos/InterfaceDoUsuario";
 import { ServicoEstruturaFormulario } from "logica/servicos/ServicoEstruturaFormulario";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
+import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
 
 export default function useCadastroDiarista() {
 	const [passo, alterarPasso] = useState(1),
@@ -61,11 +62,17 @@ export default function useCadastroDiarista() {
 		dados: CadastroDiaristaFormularioDeDadosInterface,
 		link: ApiLinksInterface
 	) {
-		const novoUsuario = await ServicoUsuario.cadastrar(
+		let novoUsuarioC = await ServicoUsuario.cadastrar(
 			dados.usuario,
 			TipoDoUsuario.Diarista,
 			link
 		);
+
+		if (novoUsuarioC && typeof novoUsuarioC === "string") {
+			novoUsuarioC = stringParaObjeto(novoUsuarioC);
+		}
+
+		const novoUsuario = novoUsuarioC;
 		if (novoUsuario) {
 			alterarNovoUsuario(novoUsuario);
 			cadastrarEndereco(dados, novoUsuario);
