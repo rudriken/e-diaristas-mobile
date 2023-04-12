@@ -64,22 +64,27 @@ export default function useContratacao() {
 			resolver: yupResolver(ServicoEstruturaFormulario.pagamento()),
 		}),
 		{ estadoUsuario, despachoUsuario } = useContext(ContextoUsuario),
-		{ estadoServicosExternos } = useContext(ContextoServicosExternos),
-		servicos = useApiHateoas<ServicoInterface[]>(
-			estadoServicosExternos.servicosExternos,
-			"listar_servicos"
-		).data,
-		dadosFaxina = formularioServico.watch("faxina"),
+		{ estadoServicosExternos } = useContext(ContextoServicosExternos);
+	let servicosC = useApiHateoas<ServicoInterface[]>(
+		estadoServicosExternos.servicosExternos,
+		"listar_servicos"
+	).data;
+
+	if (servicosC && typeof servicosC === "string") {
+		servicosC = stringParaObjeto(servicosC);
+	}
+
+	const servicos = servicosC;
+	const dadosFaxina = formularioServico.watch("faxina"),
 		cepFaxina = formularioServico.watch("endereco.cep"),
 		[podemosAtender, alterarPodemosAtender] = useState(true),
 		[novaDiaria, alterarNovaDiaria] = useState({} as DiariaInterface),
 		tipoLimpeza = useMemo<ServicoInterface>(() => {
 			if (servicos && dadosFaxina?.servico) {
-				const servicoSelecionado = Array.isArray(servicos)
-					? servicos.find(
-							(servico) => servico.id === dadosFaxina?.servico
-					  )
-					: undefined;
+				const servicoSelecionado = servicos.find(
+					(servico) => servico.id === dadosFaxina?.servico
+				);
+
 				if (servicoSelecionado) {
 					return servicoSelecionado;
 				}

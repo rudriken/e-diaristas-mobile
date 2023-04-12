@@ -68,7 +68,7 @@ const Contratacao: React.FC<ContratacaoProps> = ({ aoFinalizar }) => {
 		}
 	}, []);
 
-	if (!servicos || servicos.length < 1 || !Array.isArray(servicos)) {
+	if (!servicos || servicos.length < 1) {
 		return (
 			<View style={{ flex: 1, justifyContent: "center" }}>
 				<ActivityIndicator size={100} />
