@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { Image, View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
@@ -6,7 +5,6 @@ import {
 	createStackNavigator,
 	StackNavigationOptions,
 } from "@react-navigation/stack";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { useTheme } from "@emotion/react";
 import {
 	BottomTabNavigationOptions,
@@ -30,7 +28,10 @@ import {
 	TipoDoUsuario,
 } from "logica/@tipos/InterfaceDoUsuario";
 import Botao from "visual/componentes/entradas/Botao/Botao";
-import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
+import {
+	repararObjeto_EstadoUsuario,
+	stringParaObjeto,
+} from "logica/servicos/funcoesReparadoras";
 import {
 	CidadeInterface,
 	EnderecoInterface,
@@ -76,28 +77,6 @@ function pegarIcone(
 	};
 }
 
-function repararChaveUsuario() {
-	const { estadoUsuario } = useContext(ContextoUsuario);
-	let estadoUsuarioCopia = {} as {
-		usuario: InterfaceDoUsuario;
-		listaDeEnderecos: CidadeInterface[];
-		enderecoUsuario: EnderecoInterface;
-		logando: boolean;
-		forcarEstadoUsuario: ForcarEstadoUsuario;
-	};
-	if (estadoUsuario && typeof estadoUsuario.usuario === "string") {
-		let usuario = stringParaObjeto(estadoUsuario.usuario as string);
-		estadoUsuarioCopia = { ...estadoUsuario, usuario };
-	} else {
-		estadoUsuarioCopia = estadoUsuario;
-	}
-	console.log(
-		"estadoUsuarioCopia em 'repararChaveUsuario':",
-		estadoUsuarioCopia
-	);
-	return estadoUsuarioCopia;
-}
-
 const RotasPublicas = () => {
 	return (
 		<Pilha.Navigator screenOptions={opcoesDaTela as StackNavigationOptions}>
@@ -114,7 +93,7 @@ const RotasPublicas = () => {
 
 const RotasPrivadas = () => {
 	const cores = useTheme().colors;
-	const { usuario } = repararChaveUsuario();
+	const { usuario } = repararObjeto_EstadoUsuario().estadoUsuario;
 
 	return (
 		<GuiaInferior.Navigator
@@ -179,7 +158,7 @@ const RotasPrivadas = () => {
 };
 
 export default function Roteador() {
-	const estadoUsuario = repararChaveUsuario();
+	const { estadoUsuario } = repararObjeto_EstadoUsuario();
 	const logado = estadoUsuario.usuario.nome_completo.length > 0;
 	const logando = estadoUsuario.logando;
 	const { forcarEstadoUsuario } = estadoUsuario;

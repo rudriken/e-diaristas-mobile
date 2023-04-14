@@ -1,9 +1,9 @@
-import { ContextoServicosExternos } from "logica/contextos/ContextoServicosExternos";
 import { ServicoAPIHateoas } from "logica/servicos/ServicoAPI";
-import { useContext, useState } from "react";
+import { repararObjeto_ServicosExternos } from "logica/servicos/funcoesReparadoras";
+import { useState } from "react";
 
 export function useRecuperarSenha(token = "") {
-	const { estadoServicosExternos } = useContext(ContextoServicosExternos),
+	const { estadoServicosExternos } = repararObjeto_ServicosExternos(),
 		[email, alterarEmail] = useState(""),
 		[senha, alterarSenha] = useState(""),
 		[confirmacaoDaSenha, alterarConfirmacaoDaSenha] = useState(""),

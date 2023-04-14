@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { FormProvider } from "react-hook-form";
 import { ServicoMovel } from "logica/servicos/ServicoMovel";
@@ -20,7 +20,7 @@ import { Paragraph } from "react-native-paper";
 import Botao from "visual/componentes/entradas/Botao/Botao";
 import Dialogo from "visual/componentes/retorno/Dialogo/Dialogo";
 import { ServicoLogin } from "logica/servicos/ServicoLogin";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 const Diarista = () => {
 	const scrollViewRef = useRef<ScrollView>(null),
@@ -37,7 +37,7 @@ const Diarista = () => {
 			aoSubmeterEndereco,
 		} = useCadastroDiarista(),
 		cores = useTheme().colors;
-	const { despachoUsuario } = useContext(ContextoUsuario);
+	const { despachoUsuario } = repararObjeto_EstadoUsuario();
 
 	useEffect(() => {
 		setTimeout(() => {

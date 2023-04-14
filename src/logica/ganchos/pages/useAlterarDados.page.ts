@@ -7,16 +7,16 @@ import {
 	InterfaceDoUsuario,
 	TipoDoUsuario,
 } from "logica/@tipos/InterfaceDoUsuario";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { ServicoAPIHateoas } from "logica/servicos/ServicoAPI";
 import { ServicoEstruturaFormulario } from "logica/servicos/ServicoEstruturaFormulario";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
 import { ServicoObjeto } from "logica/servicos/ServicoObjeto";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function useAlterarDados() {
-	const { estadoUsuario, despachoUsuario } = useContext(ContextoUsuario),
+	const { estadoUsuario, despachoUsuario } = repararObjeto_EstadoUsuario(),
 		{ usuario, enderecoUsuario } = estadoUsuario,
 		formularioMetodos = useForm<CadastroDiaristaFormularioDeDadosInterface>(
 			{

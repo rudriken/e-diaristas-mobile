@@ -1,10 +1,10 @@
 import { useTheme } from "@emotion/react";
 import { DiariaInterface } from "logica/@tipos/DiariaInterface";
 import { TipoDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { ServicoData } from "logica/servicos/ServicoData";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
-import { useContext, useState } from "react";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
+import { useState } from "react";
 import { Text, View, ScrollView } from "react-native";
 import { Caption, Subheading, Title } from "react-native-paper";
 import { Rating } from "react-native-ratings";
@@ -136,7 +136,7 @@ export const AvaliarDialogo: React.FC<AvaliarDialogoProps> = (propriedades) => {
 		[descricao, alterarDescricao] = useState(""),
 		[nota, alterarNota] = useState(3),
 		[erro, alterarErro] = useState(""),
-		{ usuario } = useContext(ContextoUsuario).estadoUsuario,
+		{ usuario } = repararObjeto_EstadoUsuario().estadoUsuario,
 		usuarioAvaliado =
 			usuario.tipo_usuario === TipoDoUsuario.Cliente
 				? propriedades.diaria.diarista
@@ -203,7 +203,7 @@ export const CancelarDialogo: React.FC<CancelarDialogoProps> = (
 ) => {
 	const [motivo, alterarMotivo] = useState(""),
 		[erro, alterarErro] = useState(""),
-		{ usuario } = useContext(ContextoUsuario).estadoUsuario;
+		{ usuario } = repararObjeto_EstadoUsuario().estadoUsuario;
 
 	function tentarCancelar() {
 		if (motivo.length > 3) {

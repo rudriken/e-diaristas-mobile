@@ -1,20 +1,25 @@
 import { Oportunidade } from "logica/@tipos/OportunidadeInterface";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { linksResolver, ServicoAPIHateoas } from "logica/servicos/ServicoAPI";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { mutate } from "swr";
 import { useApiHateoas } from "../useApi.hook";
 import useMovelAtivo from "../useMovelAtivo";
 import usePaginacao from "../usePaginacao.hook";
+import {
+	repararObjeto_EstadoUsuario,
+	stringParaObjeto,
+} from "logica/servicos/funcoesReparadoras";
 
 export default function useOportunidadesTrabalho() {
 	const movel = useMovelAtivo(),
-		{ estadoUsuario } = useContext(ContextoUsuario),
-		oportunidades =
+		{ estadoUsuario } = repararObjeto_EstadoUsuario(),
+		oportunidades: Oportunidade[] = stringParaObjeto(
 			useApiHateoas<Oportunidade[]>(
 				estadoUsuario.usuario.links,
 				"lista_oportunidades"
 			).data || ([] as Oportunidade[]),
+			"oportunidades"
+		),
 		{ paginaAtual, alterarPaginaAtual, totalPaginas, itensPorPagina } =
 			usePaginacao(oportunidades || [], 5),
 		[oportunidadeSelecionada, alterarOportunidadeSelecionada] =

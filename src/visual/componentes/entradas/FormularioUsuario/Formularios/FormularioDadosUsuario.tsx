@@ -1,10 +1,9 @@
-import { useContext } from "react";
 import { View } from "react-native";
 import { Controller, useFormContext } from "react-hook-form";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
 import CampoDeTexto from "../../CampoDeTexto/CampoDeTexto";
 import CampoDeTextoComMascara from "../../CampoDeTextoComMascara/CampoDeTextoComMascara";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 export interface FormularioDadosUsuarioProps {
 	cadastro?: boolean;
@@ -24,7 +23,7 @@ export const FormularioDadosUsuario: React.FC<FormularioDadosUsuarioProps> = ({
 			telefone: string;
 		};
 	}>();
-	const { usuario } = useContext(ContextoUsuario).estadoUsuario;
+	const { usuario } = repararObjeto_EstadoUsuario().estadoUsuario;
 	return (
 		<View>
 			<Controller

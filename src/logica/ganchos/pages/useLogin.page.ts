@@ -3,11 +3,13 @@ import {
 	CredenciaisInterface,
 	LoginFormularioDeDadosInterface,
 } from "logica/@tipos/FormularioInterface";
-import { ContextoServicosExternos } from "logica/contextos/ContextoServicosExternos";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { ServicoEstruturaFormulario } from "logica/servicos/ServicoEstruturaFormulario";
 import { ServicoLogin } from "logica/servicos/ServicoLogin";
-import { useState, useContext } from "react";
+import {
+	repararObjeto_EstadoUsuario,
+	repararObjeto_ServicosExternos,
+} from "logica/servicos/funcoesReparadoras";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 export default function useLogin() {
@@ -17,8 +19,8 @@ export default function useLogin() {
 			resolver: yupResolver(ServicoEstruturaFormulario.login()),
 		}),
 		[mensagemDeErro, alterarMensagemDeErro] = useState(""),
-		{ despachoUsuario } = useContext(ContextoUsuario),
-		{ estadoServicosExternos } = useContext(ContextoServicosExternos);
+		{ despachoUsuario } = repararObjeto_EstadoUsuario(),
+		{ estadoServicosExternos } = repararObjeto_ServicosExternos();
 
 	async function aoSubmeter(
 		dado: LoginFormularioDeDadosInterface<CredenciaisInterface>

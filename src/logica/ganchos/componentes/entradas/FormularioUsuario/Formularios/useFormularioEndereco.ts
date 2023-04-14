@@ -1,13 +1,13 @@
 import useCidades from "logica/ganchos/useCidades.hook";
 import { ServicoLocalizacao } from "logica/servicos/ServicoLocalizacao";
 import { useFormContext } from "react-hook-form";
-import { useMemo, useEffect, useContext } from "react";
+import { useMemo, useEffect } from "react";
 import { NovaDiariaFormularioDeDadosInterface } from "logica/@tipos/FormularioInterface";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 export default function useFormularioEndereco() {
 	const { enderecoUsuario, usuario } =
-			useContext(ContextoUsuario).estadoUsuario,
+			repararObjeto_EstadoUsuario().estadoUsuario,
 		{
 			register,
 			control,

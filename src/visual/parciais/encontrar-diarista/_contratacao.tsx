@@ -17,12 +17,12 @@ import IconeDeFonte from "visual/componentes/exibe-dados/IconeDeFonte/IconeDeFon
 import { useTheme } from "@emotion/react";
 import Botao from "visual/componentes/entradas/Botao/Botao";
 import { Portal } from "react-native-paper";
-import { useContext, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { ServicoMovel } from "logica/servicos/ServicoMovel";
 import ListaDeDados from "visual/componentes/exibe-dados/ListaDeDados/ListaDeDados";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { ForcarEstadoUsuario } from "logica/@tipos/InterfaceDoUsuario";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 interface ContratacaoProps {
 	aoFinalizar: () => void;
@@ -51,7 +51,7 @@ const Contratacao: React.FC<ContratacaoProps> = ({ aoFinalizar }) => {
 		"faxina.data_atendimento",
 		""
 	);
-	const { estadoUsuario, despachoUsuario } = useContext(ContextoUsuario);
+	const { estadoUsuario, despachoUsuario } = repararObjeto_EstadoUsuario();
 
 	useEffect(() => {
 		setTimeout(() => {

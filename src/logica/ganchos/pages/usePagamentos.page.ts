@@ -1,16 +1,16 @@
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import useMovelAtivo from "logica/ganchos/useMovelAtivo";
 import usePaginacao from "logica/ganchos/usePaginacao.hook";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { useApiHateoas } from "../useApi.hook";
 import {
 	PagamentoInterface,
 	PagamentoStatus,
 } from "logica/@tipos/PagamentoInterface";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 export default function usePagamentos() {
 	const movel = useMovelAtivo(),
-		{ estadoUsuario } = useContext(ContextoUsuario),
+		{ estadoUsuario } = repararObjeto_EstadoUsuario(),
 		pagamentos = useApiHateoas<PagamentoInterface[]>(
 			estadoUsuario.usuario.links,
 			"lista_pagamentos"

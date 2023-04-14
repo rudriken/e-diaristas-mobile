@@ -1,15 +1,17 @@
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import useMovelAtivo from "logica/ganchos/useMovelAtivo";
 import usePaginacao from "logica/ganchos/usePaginacao.hook";
-import { ContextoDiaria } from "logica/contextos/ContextoDiarias";
 import { DiariaInterface, DiariaStatus } from "logica/@tipos/DiariaInterface";
 import { linksResolver, ServicoAPIHateoas } from "logica/servicos/ServicoAPI";
 import { mutate } from "swr";
-import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
+import {
+	repararObjeto_EstadoDiaria,
+	stringParaObjeto,
+} from "logica/servicos/funcoesReparadoras";
 
 export default function useMinhasDiarias() {
 	const movel = useMovelAtivo(),
-		{ estadoDiaria } = useContext(ContextoDiaria),
+		{ estadoDiaria } = repararObjeto_EstadoDiaria(),
 		{ diarias } = estadoDiaria,
 		[filtro, alterarFiltro] = useState("pendentes"),
 		dadosFiltrados = useMemo(() => {
@@ -97,9 +99,7 @@ export default function useMinhasDiarias() {
 		diarias: DiariaInterface[],
 		filtro: string
 	): DiariaInterface[] {
-		if (diarias && typeof diarias === "string") {
-			diarias = stringParaObjeto(diarias) as DiariaInterface[];
-		}
+		diarias = stringParaObjeto(diarias, "diarias");
 
 		return diarias.filter((item) => {
 			const avaliada = [DiariaStatus.AVALIADO].includes(

@@ -1,8 +1,7 @@
-import { useContext } from "react";
 import { View } from "react-native";
 import { Controller, useFormContext } from "react-hook-form";
 import CampoDeTexto from "../../CampoDeTexto/CampoDeTexto";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 export const FormularioContato: React.FC = () => {
 	const {
@@ -16,7 +15,7 @@ export const FormularioContato: React.FC = () => {
 			password_confirmation: string;
 		};
 	}>();
-	const { usuario } = useContext(ContextoUsuario).estadoUsuario;
+	const { usuario } = repararObjeto_EstadoUsuario().estadoUsuario;
 	return (
 		<View>
 			<Controller

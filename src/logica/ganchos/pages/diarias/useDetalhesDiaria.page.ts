@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { ContextoDiaria } from "logica/contextos/ContextoDiarias";
+import { useEffect, useState } from "react";
 import { DiariaInterface } from "logica/@tipos/DiariaInterface";
 import { ServicoAPIHateoas } from "logica/servicos/ServicoAPI";
 import { InterfaceDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
+import { repararObjeto_EstadoDiaria } from "logica/servicos/funcoesReparadoras";
 
 export default function useDetalhesDiaria(diariaID: string) {
-	const { estadoDiaria } = useContext(ContextoDiaria),
+	const { estadoDiaria } = repararObjeto_EstadoDiaria(),
 		{ diarias } = estadoDiaria,
 		[diaria, alterarDiaria] = useState({} as DiariaInterface),
 		[cliente, alterarCliente] = useState({} as InterfaceDoUsuario),

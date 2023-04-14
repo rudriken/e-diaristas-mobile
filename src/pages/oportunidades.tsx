@@ -23,18 +23,13 @@ const Oportunidades = () => {
 		seCandidatar,
 	} = useOportunidadesTrabalho();
 
-	let oportunidadesC = oportunidades;
-	if (typeof oportunidades === "string") {
-		oportunidadesC = stringParaObjeto(oportunidades);
-	}
-
 	return (
 		<ScrollView>
 			<TituloPagina titulo={"Oportunidades de trabalho"} />
 
-			{oportunidadesC.length > 0 ? (
+			{oportunidades.length > 0 ? (
 				<>
-					{oportunidadesC.map((item) => {
+					{oportunidades.map((item) => {
 						return (
 							<ListaDeDados
 								key={item.id}

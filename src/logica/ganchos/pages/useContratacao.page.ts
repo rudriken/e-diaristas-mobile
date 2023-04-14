@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useContext } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ServicoInterface } from "logica/@tipos/ServicoInterface";
@@ -16,9 +16,7 @@ import { DiariaInterface } from "logica/@tipos/DiariaInterface";
 import { ServicoValidacao } from "logica/servicos/ServicoValidacao";
 import { ServicoData } from "logica/servicos/ServicoData";
 import { comodosDaCasa } from "@parciais/encontrar-diarista/_detalhes-servico";
-import { ContextoServicosExternos } from "logica/contextos/ContextoServicosExternos";
 import { linksResolver, ServicoAPIHateoas } from "logica/servicos/ServicoAPI";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import {
 	InterfaceDoUsuario,
 	TipoDoUsuario,
@@ -28,7 +26,11 @@ import { ServicoLogin } from "logica/servicos/ServicoLogin";
 import { ApiLinksInterface } from "logica/@tipos/ApiLinksInterface";
 import { ServicoUsuario } from "logica/servicos/ServicoUsuario";
 import { ServicoPagamento } from "logica/servicos/ServicoPagamento";
-import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
+import {
+	repararObjeto_EstadoUsuario,
+	repararObjeto_ServicosExternos,
+	stringParaObjeto,
+} from "logica/servicos/funcoesReparadoras";
 
 export default function useContratacao() {
 	const [passo, alterarPasso] = useState(1),
@@ -63,19 +65,16 @@ export default function useContratacao() {
 		>({
 			resolver: yupResolver(ServicoEstruturaFormulario.pagamento()),
 		}),
-		{ estadoUsuario, despachoUsuario } = useContext(ContextoUsuario),
-		{ estadoServicosExternos } = useContext(ContextoServicosExternos);
-	let servicosC = useApiHateoas<ServicoInterface[]>(
-		estadoServicosExternos.servicosExternos,
-		"listar_servicos"
-	).data;
-
-	if (servicosC && typeof servicosC === "string") {
-		servicosC = stringParaObjeto(servicosC);
-	}
-
-	const servicos = servicosC;
-	const dadosFaxina = formularioServico.watch("faxina"),
+		{ estadoUsuario, despachoUsuario } = repararObjeto_EstadoUsuario(),
+		{ estadoServicosExternos } = repararObjeto_ServicosExternos(),
+		servicos: ServicoInterface[] | undefined = stringParaObjeto(
+			useApiHateoas<ServicoInterface[]>(
+				estadoServicosExternos.servicosExternos,
+				"listar_servicos"
+			).data,
+			"servicos"
+		),
+		dadosFaxina = formularioServico.watch("faxina"),
 		cepFaxina = formularioServico.watch("endereco.cep"),
 		[podemosAtender, alterarPodemosAtender] = useState(true),
 		[novaDiaria, alterarNovaDiaria] = useState({} as DiariaInterface),
@@ -329,26 +328,29 @@ export default function useContratacao() {
 				"cadastrar_diaria",
 				async (requisicao) => {
 					try {
-						const novaDiaria = (
-							await requisicao<DiariaInterface>({
-								data: {
-									...dadosDoServico.endereco,
-									...dadosDoServico.faxina,
-									cep: ServicoFormatadorDeTexto.pegarNumerosParaTexto(
-										dadosDoServico.endereco.cep
-									),
-									preco: totalPreco,
-									tempo_atendimento: totalTempo,
-									data_atendimento:
-										ServicoFormatadorDeTexto.reverterFormatoDeData(
-											dadosDoServico.faxina
-												.data_atendimento as string
-										) +
-										"T" +
-										dadosDoServico.faxina.hora_inicio,
-								},
-							})
-						).data;
+						const novaDiaria: DiariaInterface = stringParaObjeto(
+							(
+								await requisicao<DiariaInterface>({
+									data: {
+										...dadosDoServico.endereco,
+										...dadosDoServico.faxina,
+										cep: ServicoFormatadorDeTexto.pegarNumerosParaTexto(
+											dadosDoServico.endereco.cep
+										),
+										preco: totalPreco,
+										tempo_atendimento: totalTempo,
+										data_atendimento:
+											ServicoFormatadorDeTexto.reverterFormatoDeData(
+												dadosDoServico.faxina
+													.data_atendimento as string
+											) +
+											"T" +
+											dadosDoServico.faxina.hora_inicio,
+									},
+								})
+							).data,
+							"novaDiaria"
+						);
 						if (novaDiaria) {
 							alterarPasso(3);
 							alterarNovaDiaria(novaDiaria);

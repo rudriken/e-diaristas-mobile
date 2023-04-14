@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { LocalStorage } from "logica/servicos/ServicoArmazenamento";
@@ -8,7 +8,6 @@ import {
 	ServicoAPIHateoas,
 } from "logica/servicos/ServicoAPI";
 import { ServicoUsuario } from "logica/servicos/ServicoUsuario";
-import { ContextoServicosExternos } from "logica/contextos/ContextoServicosExternos";
 import { ApiLinksInterface } from "logica/@tipos/ApiLinksInterface";
 import { EnderecoInterface } from "logica/@tipos/EnderecoInterface";
 import { CadastroDiaristaFormularioDeDadosInterface } from "logica/@tipos/FormularioInterface";
@@ -18,7 +17,10 @@ import {
 } from "logica/@tipos/InterfaceDoUsuario";
 import { ServicoEstruturaFormulario } from "logica/servicos/ServicoEstruturaFormulario";
 import { ServicoFormatadorDeTexto } from "logica/servicos/ServicoFormatadorDeTexto";
-import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
+import {
+	repararObjeto_ServicosExternos,
+	stringParaObjeto,
+} from "logica/servicos/funcoesReparadoras";
 
 export default function useCadastroDiarista() {
 	const [passo, alterarPasso] = useState(1),
@@ -26,7 +28,7 @@ export default function useCadastroDiarista() {
 		[novoUsuario, alterarNovoUsuario] = useState<InterfaceDoUsuario>(),
 		[novoEndereco, alterarNovoEndereco] = useState<EnderecoInterface>(),
 		[sucessoCadastro, alterarSucessoCadastro] = useState(false),
-		{ estadoServicosExternos } = useContext(ContextoServicosExternos),
+		{ estadoServicosExternos } = repararObjeto_ServicosExternos(),
 		migalhaDePaoItens = ["Identificação", "Cidades atendidas"],
 		formularioUsuario = useForm<CadastroDiaristaFormularioDeDadosInterface>(
 			{
@@ -62,17 +64,15 @@ export default function useCadastroDiarista() {
 		dados: CadastroDiaristaFormularioDeDadosInterface,
 		link: ApiLinksInterface
 	) {
-		let novoUsuarioC = await ServicoUsuario.cadastrar(
-			dados.usuario,
-			TipoDoUsuario.Diarista,
-			link
+		const novoUsuario: InterfaceDoUsuario | undefined = stringParaObjeto(
+			await ServicoUsuario.cadastrar(
+				dados.usuario,
+				TipoDoUsuario.Diarista,
+				link
+			),
+			"novoUsuario"
 		);
 
-		if (novoUsuarioC && typeof novoUsuarioC === "string") {
-			novoUsuarioC = stringParaObjeto(novoUsuarioC);
-		}
-
-		const novoUsuario = novoUsuarioC;
 		if (novoUsuario) {
 			alterarNovoUsuario(novoUsuario);
 			cadastrarEndereco(dados, novoUsuario);

@@ -1,8 +1,8 @@
-import React, { useReducer, useContext, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 import produce from "immer";
 import { DiariaInterface } from "logica/@tipos/DiariaInterface";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { useApiHateoas } from "logica/ganchos/useApi.hook";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 export const estadoInicial = {
 	diarias: [] as DiariaInterface[],
@@ -44,7 +44,7 @@ const redutor = (
 
 export function useRedutorDiaria(): RedutorDiariaInterface {
 	const [estado, despacho] = useReducer(redutor, estadoInicial),
-		{ estadoUsuario } = useContext(ContextoUsuario),
+		{ estadoUsuario } = repararObjeto_EstadoUsuario(),
 		{ usuario } = estadoUsuario,
 		diarias = useApiHateoas<DiariaInterface[]>(
 			usuario.links,

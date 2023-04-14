@@ -1,11 +1,11 @@
 import { CidadeInterface } from "logica/@tipos/EnderecoInterface";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import useCidades from "logica/ganchos/useCidades.hook";
-import { useContext, useEffect, useMemo } from "react";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
+import { useEffect, useMemo } from "react";
 import { useFormContext } from "react-hook-form";
 
 export default function useFormularioCidades(estado: string) {
-	const { listaDeEnderecos } = useContext(ContextoUsuario).estadoUsuario,
+	const { listaDeEnderecos } = repararObjeto_EstadoUsuario().estadoUsuario,
 		{ register, setValue, watch } = useFormContext(),
 		listaDeCidades: CidadeInterface[] = useCidades(estado),
 		cidadesAtendidas: CidadeInterface[] = watch("cidadesAtendidas", []),

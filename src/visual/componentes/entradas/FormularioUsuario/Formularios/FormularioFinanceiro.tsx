@@ -1,13 +1,11 @@
 import { View } from "react-native";
-
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
-import { useContext } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import CampoDeTexto from "../../CampoDeTexto/CampoDeTexto";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 export const FormularioFinanceiro: React.FC = () => {
 	const { control } = useFormContext<{ usuario: { chave_pix: string } }>(),
-		{ usuario } = useContext(ContextoUsuario).estadoUsuario;
+		{ usuario } = repararObjeto_EstadoUsuario().estadoUsuario;
 	return (
 		<View>
 			<Controller

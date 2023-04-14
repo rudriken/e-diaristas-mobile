@@ -1,10 +1,8 @@
-import { useContext } from "react";
 import { ScrollView, View } from "react-native";
 import { ActivityIndicator, Snackbar } from "react-native-paper";
 import { FormProvider, Controller } from "react-hook-form";
 import { useTheme } from "@emotion/react";
 import useAlterarDados from "logica/ganchos/pages/useAlterarDados.page";
-import { ContextoUsuario } from "logica/contextos/ContextoUsuario";
 import { ServicoLogin } from "logica/servicos/ServicoLogin";
 import {
 	InterfaceDoUsuario,
@@ -23,9 +21,10 @@ import Botao from "visual/componentes/entradas/Botao/Botao";
 import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagina";
 import CampoDeArquivo from "visual/componentes/entradas/CampoDeArquivo/CampoDeArquivo";
 import { FormularioContainer } from "@parciais/encontrar-diarista/_verificar-profissionais.styled";
+import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
 
 const AlterarDados = () => {
-	const { despachoUsuario } = useContext(ContextoUsuario);
+	const { despachoUsuario } = repararObjeto_EstadoUsuario();
 	const {
 		usuario,
 		formularioMetodos,
