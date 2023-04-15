@@ -25,7 +25,6 @@ export default function useVerificarProfissionais() {
 				diaristas: InterfaceInformacaoCurtaDoUsuario[];
 				quantidade_diaristas_restante: number;
 			}>(`/api/diaristas/localidades?cep=${cep.replace(/\D/g, "")}`);
-			console.log(data);
 			const dadosDoBanco = data;
 			definirBuscaFeita(true);
 			definirListaDiaristas(dadosDoBanco.diaristas);

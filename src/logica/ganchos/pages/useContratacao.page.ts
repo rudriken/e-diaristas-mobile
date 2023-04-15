@@ -185,17 +185,14 @@ export default function useContratacao() {
 		dados: CadastroClienteFormularioDeDadosInterface,
 		link: ApiLinksInterface
 	) {
-		let novoUsuarioC = await ServicoUsuario.cadastrar(
-			dados.usuario,
-			TipoDoUsuario.Cliente,
-			link
+		const novoUsuario: InterfaceDoUsuario | undefined = stringParaObjeto(
+			await ServicoUsuario.cadastrar(
+				dados.usuario,
+				TipoDoUsuario.Cliente,
+				link
+			),
+			"novoUsuario"
 		);
-
-		if (novoUsuarioC && typeof novoUsuarioC === "string") {
-			novoUsuarioC = stringParaObjeto(novoUsuarioC);
-		}
-
-		const novoUsuario = novoUsuarioC;
 
 		if (novoUsuario) {
 			const loginSucesso = await login({

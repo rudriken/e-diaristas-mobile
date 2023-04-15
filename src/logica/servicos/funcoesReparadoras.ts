@@ -94,7 +94,6 @@ export function repararObjeto_EstadoUsuario() {
 		),
 		useContext(ContextoUsuario).despachoUsuario,
 	];
-	console.log("estadoUsuario que veio do banco:", estadoUsuario);
 
 	const usuario: InterfaceDoUsuario = stringParaObjeto(
 		estadoUsuario.usuario,
@@ -118,10 +117,6 @@ export function repararObjeto_EstadoUsuario() {
 		logando,
 		forcarEstadoUsuario,
 	};
-	console.log(
-		"estadoUsuario em 'repararObjeto_EstadoUsuario':",
-		estadoUsuario
-	);
 	return { estadoUsuario, despachoUsuario };
 }
 
@@ -148,7 +143,6 @@ export function repararObjeto_EstadoDiaria() {
 		diarias,
 		buscando,
 	};
-	console.log("estadoDiaria em 'repararObjeto_EstadoDiaria':", estadoDiaria);
 	return { estadoDiaria, despachoDiaria };
 }
 
@@ -170,9 +164,5 @@ export function repararObjeto_ServicosExternos() {
 		"servicosExternos"
 	);
 	estadoServicosExternos = { servicosExternos };
-	console.log(
-		"estadoServicosExternos em 'repararObjeto_ServicosExternos':",
-		estadoServicosExternos
-	);
 	return { estadoServicosExternos, despachoServicosExternos };
 }

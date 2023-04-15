@@ -55,7 +55,6 @@ const AlterarDados = () => {
 		});
 	}
 
-	console.log(formularioMetodos);
 	if (!usuario.nome_completo) {
 		return (
 			<View style={{ marginTop: 40 }}>
