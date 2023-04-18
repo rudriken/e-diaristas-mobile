@@ -22,6 +22,10 @@ import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagi
 import CampoDeArquivo from "visual/componentes/entradas/CampoDeArquivo/CampoDeArquivo";
 import { FormularioContainer } from "@parciais/encontrar-diarista/_verificar-profissionais.styled";
 import { repararObjeto_EstadoUsuario } from "logica/servicos/funcoesReparadoras";
+import {
+	CidadeInterface,
+	EnderecoInterface,
+} from "logica/@tipos/EnderecoInterface";
 
 const AlterarDados = () => {
 	const { despachoUsuario } = repararObjeto_EstadoUsuario();
@@ -39,6 +43,22 @@ const AlterarDados = () => {
 
 	function sair() {
 		ServicoLogin.sair();
+		despachoUsuario({
+			tipo: "SET_USER_ADDRESS",
+			carregarObjeto: {
+				logradouro: "",
+				bairro: "",
+				complemento: "",
+				cep: "",
+				cidade: "",
+				estado: "",
+				numero: "",
+			} as EnderecoInterface,
+		});
+		despachoUsuario({
+			tipo: "SET_ADDRESS_LIST",
+			carregarObjeto: [] as CidadeInterface[],
+		});
 		despachoUsuario({
 			tipo: "SET_USER",
 			carregarObjeto: {

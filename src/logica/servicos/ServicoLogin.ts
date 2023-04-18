@@ -3,6 +3,22 @@ import { InterfaceDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
 import { LocalStorage } from "./ServicoArmazenamento";
 import { ServicoAPI } from "./ServicoAPI";
 
+function stringParaObjetoEmLogin(cadeia: any, variavel = "PADRÃO") {
+	if (cadeia && typeof cadeia === "string") {
+		if (cadeia[0] === "[") {
+			cadeia = cadeia + "]";
+		} else if (cadeia[0] === "{") {
+			cadeia = cadeia + "}";
+		}
+
+		let objeto: any = JSON.parse(cadeia);
+		console.log(`string '${variavel}' convertida para objeto`);
+		return objeto;
+	} else {
+		return cadeia;
+	}
+}
+
 export const ServicoLogin = {
 	async entrar(credenciais: CredenciaisInterface): Promise<boolean> {
 		try {
@@ -33,7 +49,11 @@ export const ServicoLogin = {
 		if (token) {
 			ServicoAPI.defaults.headers.common.Authorization =
 				"Bearer " + token;
-			return (await ServicoAPI.get<InterfaceDoUsuario>("/api/eu")).data;
+			const resposta = stringParaObjetoEmLogin(
+				(await ServicoAPI.get<InterfaceDoUsuario>("/api/eu")).data,
+				"resposta"
+			);
+			return resposta;
 		}
 		return undefined;
 	},
