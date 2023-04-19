@@ -99,7 +99,7 @@ export default function useMinhasDiarias() {
 		diarias: DiariaInterface[],
 		filtro: string
 	): DiariaInterface[] {
-		diarias = stringParaObjeto(diarias, "diarias");
+		diarias = stringParaObjeto(diarias, "diarias de 'filtrarDiarias'");
 
 		return diarias.filter((item) => {
 			const avaliada = [DiariaStatus.AVALIADO].includes(

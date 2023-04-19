@@ -72,7 +72,7 @@ export default function useContratacao() {
 				estadoServicosExternos.servicosExternos,
 				"listar_servicos"
 			).data,
-			"servicos"
+			"servicos de 'useContratacao'"
 		),
 		dadosFaxina = formularioServico.watch("faxina"),
 		cepFaxina = formularioServico.watch("endereco.cep"),
@@ -191,7 +191,7 @@ export default function useContratacao() {
 				TipoDoUsuario.Cliente,
 				link
 			),
-			"novoUsuario"
+			"novoUsuario de 'cadastrarUsuario'"
 		);
 
 		if (novoUsuario) {
@@ -346,7 +346,7 @@ export default function useContratacao() {
 									},
 								})
 							).data,
-							"novaDiaria"
+							"novaDiaria de 'criarDiaria'"
 						);
 						if (novaDiaria) {
 							alterarPasso(3);

@@ -16,7 +16,10 @@ import { TipoDaAcaoDosServicosExternos } from "logica/redutores/RedutorServicosE
 import { TipoDaAcaoDoUsuario } from "logica/redutores/RedutorUsuario";
 import { useContext } from "react";
 
-export const stringParaObjeto = (cadeia: any, variavel = "PADRÃO") => {
+export const stringParaObjeto = (
+	cadeia: any,
+	variavel = "<nome da variável>"
+) => {
 	if (cadeia && typeof cadeia === "string") {
 		if (cadeia[0] === "[") {
 			cadeia = cadeia + "]";

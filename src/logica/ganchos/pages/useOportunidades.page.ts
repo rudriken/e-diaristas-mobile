@@ -18,7 +18,7 @@ export default function useOportunidadesTrabalho() {
 				estadoUsuario.usuario.links,
 				"lista_oportunidades"
 			).data || ([] as Oportunidade[]),
-			"oportunidades"
+			"oportunidades de 'useOportunidadesTrabalho'"
 		),
 		{ paginaAtual, alterarPaginaAtual, totalPaginas, itensPorPagina } =
 			usePaginacao(oportunidades || [], 5),

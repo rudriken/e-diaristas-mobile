@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { ApiLinksInterface } from "logica/@tipos/ApiLinksInterface";
 import { LocalStorage } from "./ServicoArmazenamento";
 
-function stringParaObjeto_ServicoAPI(cadeia: any, variavel = "PADRÃO") {
+export function stringParaObjeto_ServicoAPI(cadeia: any, variavel = "PADRÃO") {
 	if (cadeia && typeof cadeia === "string") {
 		if (cadeia[0] === "[") {
 			cadeia = cadeia + "]";
@@ -59,7 +59,7 @@ async function lidarComAtualizacaoDoToken(erro: {
 						refresh: tokenRefresh,
 					})
 				).data,
-				"data"
+				"data de 'lidarComAtualizacaoDoToken'"
 			);
 			LocalStorage.gravar("token", data.acesso);
 			LocalStorage.gravar("token_refresh", data.refresh);
@@ -103,7 +103,7 @@ export function ServicoAPIHateoas(
 						url: requisicaoLinks.uri,
 						...dado,
 					}),
-					"resposta"
+					"resposta de 'ServicoAPIHateoas'"
 				);
 			return resposta;
 		});

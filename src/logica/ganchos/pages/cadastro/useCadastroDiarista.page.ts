@@ -70,7 +70,7 @@ export default function useCadastroDiarista() {
 				TipoDoUsuario.Diarista,
 				link
 			),
-			"novoUsuario"
+			"novoUsuario de 'cadastrarUsuario'"
 		);
 
 		if (novoUsuario) {

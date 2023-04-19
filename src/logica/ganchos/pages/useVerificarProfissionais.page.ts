@@ -37,7 +37,7 @@ export default function useVerificarProfissionais() {
 						)}`
 					)
 				).data,
-				"dadosDoBanco"
+				"dadosDoBanco de 'buscarProfissionais'"
 			);
 			definirBuscaFeita(true);
 			definirListaDiaristas(dadosDoBanco.diaristas);

@@ -1,23 +1,7 @@
 import { CredenciaisInterface } from "logica/@tipos/FormularioInterface";
 import { InterfaceDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
 import { LocalStorage } from "./ServicoArmazenamento";
-import { ServicoAPI } from "./ServicoAPI";
-
-function stringParaObjeto_ServicoLogin(cadeia: any, variavel = "PADRÃO") {
-	if (cadeia && typeof cadeia === "string") {
-		if (cadeia[0] === "[") {
-			cadeia = cadeia + "]";
-		} else if (cadeia[0] === "{") {
-			cadeia = cadeia + "}";
-		}
-
-		let objeto: any = JSON.parse(cadeia);
-		console.log(`string '${variavel}' convertida para objeto`);
-		return objeto;
-	} else {
-		return cadeia;
-	}
-}
+import { ServicoAPI, stringParaObjeto_ServicoAPI } from "./ServicoAPI";
 
 export const ServicoLogin = {
 	async entrar(credenciais: CredenciaisInterface): Promise<boolean> {
@@ -27,7 +11,7 @@ export const ServicoLogin = {
 				refresh: string;
 				token_tipo: string;
 				expira_em: number;
-			} = stringParaObjeto_ServicoLogin(
+			} = stringParaObjeto_ServicoAPI(
 				(
 					await ServicoAPI.post<{
 						acesso: string;
@@ -36,7 +20,7 @@ export const ServicoLogin = {
 						expira_em: number;
 					}>("/autenticacao/token", credenciais)
 				).data,
-				"data"
+				"data de 'ServicoLogin.entrar'"
 			);
 			LocalStorage.gravar("token", data.acesso);
 			LocalStorage.gravar("token_refresh", data.refresh);
@@ -59,9 +43,9 @@ export const ServicoLogin = {
 		if (token) {
 			ServicoAPI.defaults.headers.common.Authorization =
 				"Bearer " + token;
-			const resposta: InterfaceDoUsuario = stringParaObjeto_ServicoLogin(
+			const resposta: InterfaceDoUsuario = stringParaObjeto_ServicoAPI(
 				(await ServicoAPI.get<InterfaceDoUsuario>("/api/eu")).data,
-				"resposta"
+				"resposta de 'ServicoLogin.informacoes'"
 			);
 			return resposta;
 		}

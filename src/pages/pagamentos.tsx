@@ -10,7 +10,6 @@ import TituloPagina from "visual/componentes/exibe-dados/TituloPagina/TituloPagi
 
 const Pagamentos = () => {
 	const { dadosFiltrados, filtro, modificarFiltro } = usePagamentos();
-	console.log("dadosFiltrados:", dadosFiltrados);
 	return (
 		<ScrollView>
 			<TituloPagina titulo={"Pagamentos"} />
