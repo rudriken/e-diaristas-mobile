@@ -4,6 +4,23 @@ import {
 	EstadoInterface,
 } from "logica/@tipos/EnderecoInterface";
 import { ServicoAPI } from "./ServicoAPI";
+import { AxiosResponse } from "axios";
+
+function stringParaObjeto_ServicoLocalizacao(cadeia: any, variavel = "PADRÃO") {
+	if (cadeia && typeof cadeia === "string") {
+		if (cadeia[0] === "[") {
+			cadeia = cadeia + "]";
+		} else if (cadeia[0] === "{") {
+			cadeia = cadeia + "}";
+		}
+
+		let objeto: any = JSON.parse(cadeia);
+		console.log(`string '${variavel}' convertida para objeto`);
+		return objeto;
+	} else {
+		return cadeia;
+	}
+}
 
 export const ServicoLocalizacao = {
 	listarEstados(): EstadoInterface[] {
@@ -41,16 +58,23 @@ export const ServicoLocalizacao = {
 		estado: string
 	): Promise<CidadeInterface[] | undefined> {
 		try {
-			const resposta = await ServicoAPI.request<
-				{ nome: string; id: number }[]
-			>({
-				/* usando a chave 'baseURL' aqui isso irá sobrescrever a URL base que está
-				 * no 'ServicoAPI', que, no caso, é o endereço do servidor local
-				 */
-				baseURL:
-					"https://servicodados.ibge.gov.br/api/v1/localidades/estados/",
-				url: `${estado}/municipios`,
-			});
+			const resposta: AxiosResponse<
+				{
+					nome: string;
+					id: number;
+				}[],
+				any
+			> = stringParaObjeto_ServicoLocalizacao(
+				await ServicoAPI.request<{ nome: string; id: number }[]>({
+					/* usando a chave 'baseURL' aqui isso irá sobrescrever a URL base que está
+					 * no 'ServicoAPI', que, no caso, é o endereço do servidor local
+					 */
+					baseURL:
+						"https://servicodados.ibge.gov.br/api/v1/localidades/estados/",
+					url: `${estado}/municipios`,
+				}),
+				"resposta"
+			);
 			return resposta.data.map((cidade) => ({
 				cidade: cidade.nome,
 				codigo_ibge: cidade.id,
@@ -59,9 +83,13 @@ export const ServicoLocalizacao = {
 	},
 	async localizarCEP(cep: string): Promise<CepResposta | undefined> {
 		try {
-			const resposta = await ServicoAPI.request<CepResposta>({
-				url: "api/enderecos?cep=" + cep.replace(/\D/g, ""),
-			});
+			const resposta: AxiosResponse<CepResposta, any> =
+				stringParaObjeto_ServicoLocalizacao(
+					await ServicoAPI.request<CepResposta>({
+						url: "api/enderecos?cep=" + cep.replace(/\D/g, ""),
+					}),
+					"resposta"
+				);
 			return resposta.data;
 		} catch (erro) {}
 	},

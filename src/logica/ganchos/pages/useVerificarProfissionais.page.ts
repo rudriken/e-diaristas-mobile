@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { ServicoAPI } from "logica/servicos/ServicoAPI";
 import { ServicoValidacao } from "logica/servicos/ServicoValidacao";
 import { InterfaceInformacaoCurtaDoUsuario } from "logica/@tipos/InterfaceDoUsuario";
+import { stringParaObjeto } from "logica/servicos/funcoesReparadoras";
 
 export default function useVerificarProfissionais() {
 	const [cep, definirCep] = useState(""),
@@ -21,11 +22,23 @@ export default function useVerificarProfissionais() {
 		definirCarregando(true);
 		definirErro("");
 		try {
-			const { data } = await ServicoAPI.get<{
+			const dadosDoBanco: {
 				diaristas: InterfaceInformacaoCurtaDoUsuario[];
 				quantidade_diaristas_restante: number;
-			}>(`/api/diaristas/localidades?cep=${cep.replace(/\D/g, "")}`);
-			const dadosDoBanco = data;
+			} = stringParaObjeto(
+				(
+					await ServicoAPI.get<{
+						diaristas: InterfaceInformacaoCurtaDoUsuario[];
+						quantidade_diaristas_restante: number;
+					}>(
+						`/api/diaristas/localidades?cep=${cep.replace(
+							/\D/g,
+							""
+						)}`
+					)
+				).data,
+				"dadosDoBanco"
+			);
 			definirBuscaFeita(true);
 			definirListaDiaristas(dadosDoBanco.diaristas);
 			definirDiaristasRestantes(

@@ -7,6 +7,23 @@ import { ServicoFormatadorDeTexto } from "./ServicoFormatadorDeTexto";
 import { ServicoObjeto } from "./ServicoObjeto";
 import { ServicoAPI } from "./ServicoAPI";
 import { UseFormReturn, FieldPath, FieldValues } from "react-hook-form";
+import { AxiosResponse } from "axios";
+
+function stringParaObjeto_ServicoUsuario(cadeia: any, variavel = "PADRÃO") {
+	if (cadeia && typeof cadeia === "string") {
+		if (cadeia[0] === "[") {
+			cadeia = cadeia + "]";
+		} else if (cadeia[0] === "{") {
+			cadeia = cadeia + "}";
+		}
+
+		let objeto: any = JSON.parse(cadeia);
+		console.log(`string '${variavel}' convertida para objeto`);
+		return objeto;
+	} else {
+		return cadeia;
+	}
+}
 
 export const ServicoUsuario = {
 	async cadastrar(
@@ -29,12 +46,16 @@ export const ServicoUsuario = {
 			cpf,
 			telefone,
 		});
-		const resposta = await ServicoAPI.request<InterfaceDoUsuario>({
-			url: link.uri,
-			method: link.type,
-			data: dadosDoUsuario,
-			headers: { "Content-Type": "multipart/form-data" },
-		});
+		const resposta: AxiosResponse<InterfaceDoUsuario, any> =
+			stringParaObjeto_ServicoUsuario(
+				await ServicoAPI.request<InterfaceDoUsuario>({
+					url: link.uri,
+					method: link.type,
+					data: dadosDoUsuario,
+					headers: { "Content-Type": "multipart/form-data" },
+				}),
+				"resposta"
+			);
 		return resposta.data;
 	},
 	tratarErroNovosUsuarios<T extends FieldValues>(

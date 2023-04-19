@@ -2,6 +2,22 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { ApiLinksInterface } from "logica/@tipos/ApiLinksInterface";
 import { LocalStorage } from "./ServicoArmazenamento";
 
+function stringParaObjeto_ServicoAPI(cadeia: any, variavel = "PADRÃO") {
+	if (cadeia && typeof cadeia === "string") {
+		if (cadeia[0] === "[") {
+			cadeia = cadeia + "]";
+		} else if (cadeia[0] === "{") {
+			cadeia = cadeia + "}";
+		}
+
+		let objeto: any = JSON.parse(cadeia);
+		console.log(`string '${variavel}' convertida para objeto`);
+		return objeto;
+	} else {
+		return cadeia;
+	}
+}
+
 const url = process.env.NEXT_PUBLIC_API;
 
 export const ServicoAPI = axios.create({
@@ -15,7 +31,7 @@ ServicoAPI.interceptors.response.use(
 	(resposta) => resposta,
 	(erro) => {
 		if (
-			erro.response?.HTTP === 401 &&
+			erro.response.HTTP === 401 &&
 			erro.response.data.codigo === "token_nao_validado"
 		) {
 			lidarComAtualizacaoDoToken(erro);
@@ -32,18 +48,19 @@ async function lidarComAtualizacaoDoToken(erro: {
 		LocalStorage.apagar("token_refresh");
 		LocalStorage.apagar("token");
 		try {
-			const {
-				data,
-			}: {
-				data: {
-					acesso: string;
-					refresh: string;
-					token_tipo: string;
-					expira_em: number;
-				};
-			} = await ServicoAPI.post("/autenticacao/token/atualizar", {
-				refresh: tokenRefresh,
-			});
+			const data: {
+				acesso: string;
+				refresh: string;
+				token_tipo: string;
+				expira_em: number;
+			} = stringParaObjeto_ServicoAPI(
+				(
+					await ServicoAPI.post("/autenticacao/token/atualizar", {
+						refresh: tokenRefresh,
+					})
+				).data,
+				"data"
+			);
 			LocalStorage.gravar("token", data.acesso);
 			LocalStorage.gravar("token_refresh", data.refresh);
 			ServicoAPI.defaults.headers.common.Authorization =
@@ -79,11 +96,16 @@ export function ServicoAPIHateoas(
 	const requisicaoLinks = linksResolver(links, nome);
 	if (requisicaoLinks) {
 		aoPoderRequisitar(<T>(dado?: AxiosRequestConfig) => {
-			return ServicoAPI.request<T>({
-				method: requisicaoLinks.type,
-				url: requisicaoLinks.uri,
-				...dado,
-			});
+			const resposta: Promise<AxiosResponse<T, any>> =
+				stringParaObjeto_ServicoAPI(
+					ServicoAPI.request<T>({
+						method: requisicaoLinks.type,
+						url: requisicaoLinks.uri,
+						...dado,
+					}),
+					"resposta"
+				);
+			return resposta;
 		});
 	} else {
 		aoNaoPoderRequisitar?.();
